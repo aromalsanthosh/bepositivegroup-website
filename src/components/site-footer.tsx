@@ -48,9 +48,24 @@ export function SiteFooter() {
           </ul>
         </div>
 
-        <p className="mt-14 border-t border-line pt-6 text-sm text-muted">
-          © {new Date().getFullYear()} Be Positive Group. All rights reserved.
-        </p>
+        <div className="mt-14 flex flex-col gap-3 border-t border-line pt-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Be Positive Group. All rights reserved.</p>
+          <p>
+            Made with{" "}
+            <span role="img" aria-label="love">
+              ❤️
+            </span>{" "}
+            by{" "}
+            <a
+              href="https://aromalsanthosh.com"
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-ink underline-offset-4 hover:underline"
+            >
+              Aromal S<span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );
