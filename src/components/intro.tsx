@@ -1,3 +1,4 @@
+import { Quotes } from "@phosphor-icons/react/ssr";
 import { BrandEmblem } from "@/components/brand-emblem";
 import { ScrollText } from "@/components/motion/scroll-text";
 import { Reveal } from "@/components/motion/reveal";
@@ -25,8 +26,11 @@ export function Intro() {
               <p className="max-w-[46ch] text-[17px] leading-relaxed text-muted">{intro.body}</p>
             </Reveal>
             <Reveal delay={0.1}>
-              <blockquote className="lg rounded-[28px] p-7">
-                <p className="text-[clamp(1.25rem,2vw,1.6rem)] leading-snug font-semibold tracking-[-0.02em]">
+              {/* Pull quote, not a card: a glass capsule here read as a button. */}
+              <blockquote className="relative pl-6">
+                <span aria-hidden className="absolute inset-y-1 left-0 w-[3px] rounded-full bg-gradient-to-b from-blue-bright to-blue-bright/10" />
+                <Quotes size={28} weight="fill" className="text-blue-bright" aria-hidden />
+                <p className="text-sheen mt-3 text-[clamp(1.4rem,2.2vw,1.85rem)] leading-snug font-semibold tracking-[-0.02em]">
                   {intro.principle}
                 </p>
               </blockquote>
