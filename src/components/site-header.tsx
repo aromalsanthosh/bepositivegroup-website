@@ -12,12 +12,8 @@ export function SiteHeader() {
 
   return (
     <header className="fixed inset-x-0 top-3 z-40 px-3 sm:top-4 sm:px-5">
-      {/* Below lg: [spacer | centred logo | menu]. lg+: logo left, nav, CTA right. */}
-      <div className="lg mx-auto grid h-16 max-w-[1180px] grid-cols-[2.75rem_1fr_2.75rem] items-center rounded-full px-2.5 lg:flex lg:justify-between lg:gap-6 lg:pr-2 lg:pl-5">
-        <span aria-hidden className="lg:hidden" />
-        <div className="justify-self-center lg:justify-self-auto">
-          <Logo className="h-8 w-auto sm:h-9" />
-        </div>
+      <div className="lg mx-auto flex h-16 max-w-[1180px] items-center justify-between gap-3 rounded-full pr-2 pl-5 sm:gap-6">
+        <Logo className="h-8 w-auto sm:h-9" />
 
         <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex items-center gap-1 text-[15px] font-medium text-text/80">
@@ -34,10 +30,10 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="flex shrink-0 items-center justify-end gap-1.5">
+        <div className="flex shrink-0 items-center gap-1.5">
           <a
             href={cta.href}
-            className="btn-glass-blue hidden h-11 items-center whitespace-nowrap rounded-full px-5 text-[14px] font-semibold active:translate-y-px lg:inline-flex"
+            className="btn-glass-blue hidden h-11 items-center whitespace-nowrap rounded-full px-5 text-[14px] font-semibold active:translate-y-px sm:inline-flex"
           >
             {cta.label}
           </a>
