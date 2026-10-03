@@ -54,7 +54,7 @@ export function Hero() {
           className="animate-rise mt-7 flex flex-wrap justify-center gap-3"
           style={{ animationDelay: "300ms" }}
         >
-          <Pill href="#races" variant="white">
+          <Pill href="#races" variant="secondary">
             Previous races
           </Pill>
           <Pill href="#live">Watch live</Pill>

@@ -33,7 +33,7 @@ export function SiteHeader() {
         <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <a
             href="#live"
-            className="inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full bg-blue px-3 text-[13px] font-semibold text-white transition-colors hover:bg-[#2b68ff] sm:gap-2 sm:px-4 sm:text-[14px]"
+            className="inline-flex h-9 items-center gap-1.5 whitespace-nowrap btn-glass-blue rounded-full px-3 text-[13px] font-semibold active:translate-y-px sm:gap-2 sm:px-4 sm:text-[14px]"
           >
             <span className="live-dot size-1.5 rounded-full bg-white sm:size-2" aria-hidden />
             Watch live

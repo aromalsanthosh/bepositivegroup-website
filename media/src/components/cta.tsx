@@ -18,7 +18,7 @@ export function Cta() {
               Subscribe and turn on notifications to get an alert the moment we go live.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Pill href={channel.subscribeUrl} variant="white" external>
+              <Pill href={channel.subscribeUrl} variant="secondary" external>
                 <YoutubeLogo size={20} weight="fill" className="text-[#ff0033]" aria-hidden />
                 Subscribe on YouTube
               </Pill>
