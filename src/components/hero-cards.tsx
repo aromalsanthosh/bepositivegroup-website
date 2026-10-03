@@ -5,9 +5,10 @@ import Image from "next/image";
 import { gsap, useGSAP, EASE, MOTION_OK } from "@/lib/gsap";
 import { verticals, brand } from "@/content/site";
 
-// Stack of floating liquid-glass cards. Each layer sits at a different depth:
-// they tilt toward the pointer (quickTo, no React state) and drift apart on
-// scroll, which reads as real parallax depth.
+// Stack of floating liquid-glass cards. On desktop each layer sits at a
+// different depth: they tilt toward the pointer (quickTo, no React state) and
+// drift apart on scroll. Below lg the cards fall back to a clean grid (Media
+// full width, Tourism and Trading side by side) so nothing overlaps.
 export function HeroCards() {
   const ref = useRef<HTMLDivElement>(null);
   const [media, tourism, trading] = verticals;
@@ -25,8 +26,10 @@ export function HeroCards() {
           stagger: 0.12,
           delay: 0.25,
         });
+      });
 
-        // Scroll depth: deeper layers move less.
+      // Scroll depth (desktop layered composition only): deeper layers move less.
+      mm.add(`${MOTION_OK} and (min-width: 1024px)`, () => {
         gsap.utils.toArray<HTMLElement>(".hc").forEach((el) => {
           const depth = Number(el.dataset.depth ?? 1);
           gsap.to(el, {
@@ -70,9 +73,15 @@ export function HeroCards() {
 
   return (
     <div className="relative mx-auto w-full max-w-[560px] [perspective:1600px]">
-      <div ref={ref} className="relative aspect-[1/1.28] [transform-style:preserve-3d]">
+      <div
+        ref={ref}
+        className="relative grid grid-cols-2 gap-3 pt-5 sm:gap-4 lg:block lg:aspect-[1/1.28] lg:pt-0 [transform-style:preserve-3d]"
+      >
         {/* Media: the active vertical, front and centre. */}
-        <div className="hc absolute inset-x-[4%] top-[7%] z-20" data-depth="1.4">
+        <div
+          className="hc relative z-20 col-span-2 lg:absolute lg:inset-x-[4%] lg:top-[7%]"
+          data-depth="1.4"
+        >
           <div className="hc-shift" data-depth="1.4">
             <div className="lg animate-float overflow-hidden rounded-[30px] p-3">
               <div className="relative aspect-[16/10] overflow-hidden rounded-[22px]">
@@ -81,7 +90,7 @@ export function HeroCards() {
                   alt={media.alt}
                   fill
                   preload
-                  sizes="(min-width: 1024px) 480px, 88vw"
+                  sizes="(min-width: 1024px) 480px, 92vw"
                   className="object-cover"
                 />
               </div>
@@ -90,7 +99,7 @@ export function HeroCards() {
                   <p className="text-[19px] font-semibold tracking-[-0.01em]">{media.name}</p>
                   <p className="text-[14px] text-muted">{media.tagline}</p>
                 </div>
-                <span className="lg-thin inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[13px] font-semibold text-blue-bright">
+                <span className="lg-thin inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 text-[13px] font-semibold whitespace-nowrap text-blue-bright">
                   <span className="size-1.5 rounded-full bg-blue-bright" aria-hidden />
                   {media.status}
                 </span>
@@ -100,7 +109,10 @@ export function HeroCards() {
         </div>
 
         {/* Tourism and Trading tiles, deeper in the stack. */}
-        <div className="hc absolute bottom-[2%] left-0 z-30 w-[42%]" data-depth="2">
+        <div
+          className="hc relative z-30 lg:absolute lg:bottom-[2%] lg:left-0 lg:w-[42%]"
+          data-depth="2"
+        >
           <div className="hc-shift" data-depth="2">
             <div className="lg animate-float overflow-hidden rounded-[24px] p-2.5 [animation-delay:-2.5s]">
               <div className="relative aspect-[4/3] overflow-hidden rounded-[18px]">
@@ -108,17 +120,19 @@ export function HeroCards() {
                   src={tourism.image}
                   alt={tourism.alt}
                   fill
-                  sizes="260px"
+                  sizes="(min-width: 1024px) 240px, 46vw"
                   className="object-cover"
                 />
               </div>
-              <p className="px-1.5 pt-3 pb-1 text-[15px] font-semibold">
-                {tourism.name} <span className="font-normal text-muted">· soon</span>
-              </p>
+              <p className="px-1.5 pt-3 text-[15px] font-semibold">{tourism.name}</p>
+              <p className="px-1.5 pb-1 text-[13px] text-muted">Coming soon</p>
             </div>
           </div>
         </div>
-        <div className="hc absolute right-[2%] bottom-0 z-10 w-[40%]" data-depth="0.8">
+        <div
+          className="hc relative z-10 lg:absolute lg:right-[2%] lg:bottom-0 lg:w-[40%]"
+          data-depth="0.8"
+        >
           <div className="hc-shift" data-depth="0.8">
             <div className="lg animate-float overflow-hidden rounded-[24px] p-2.5 [animation-delay:-4.5s]">
               <div className="relative aspect-[4/3] overflow-hidden rounded-[18px]">
@@ -126,25 +140,24 @@ export function HeroCards() {
                   src={trading.image}
                   alt={trading.alt}
                   fill
-                  sizes="240px"
+                  sizes="(min-width: 1024px) 230px, 46vw"
                   className="object-cover"
                 />
               </div>
-              <p className="px-1.5 pt-3 pb-1 text-[15px] font-semibold">
-                {trading.name} <span className="font-normal text-muted">· soon</span>
-              </p>
+              <p className="px-1.5 pt-3 text-[15px] font-semibold">{trading.name}</p>
+              <p className="px-1.5 pb-1 text-[13px] text-muted">Coming soon</p>
             </div>
           </div>
         </div>
 
         {/* Since 2010 badge. */}
-        <div className="hc absolute top-0 right-[2%] z-30" data-depth="2.4">
+        <div className="hc absolute top-0 right-2 z-30 lg:right-[2%]" data-depth="2.4">
           <div className="hc-shift" data-depth="2.4">
-            <div className="lg animate-float rounded-[22px] px-5 py-4 text-center [animation-delay:-1.2s]">
-              <p className="text-[12px] font-semibold tracking-[0.08em] text-muted uppercase">
+            <div className="lg animate-float rounded-[18px] px-3.5 py-2.5 text-center [animation-delay:-1.2s] lg:rounded-[22px] lg:px-5 lg:py-4">
+              <p className="text-[10px] font-semibold tracking-[0.08em] text-muted uppercase lg:text-[12px]">
                 Since
               </p>
-              <p className="text-sheen font-display text-[34px] leading-none font-semibold tracking-[-0.03em]">
+              <p className="text-sheen font-display text-[24px] leading-none font-semibold tracking-[-0.03em] lg:text-[34px]">
                 {brand.since}
               </p>
             </div>
