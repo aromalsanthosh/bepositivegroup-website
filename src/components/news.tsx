@@ -21,9 +21,13 @@ export function News() {
         intro="Updates from across the group, our verticals and the industries we work in."
       />
 
-      {/* Category filter: scrolls sideways on small screens instead of wrapping. */}
-      <div className="-mx-5 mt-10 overflow-x-auto px-5 [scrollbar-width:none]">
-        <ul aria-label="Filter news by category" className="lg-thin inline-flex gap-1 rounded-full p-1.5">
+      {/* Category filter: wrapping pills on phones so every option is visible,
+          one glass capsule from sm up. */}
+      <div className="mt-10">
+        <ul
+          aria-label="Filter news by category"
+          className="flex flex-wrap gap-2 sm:inline-flex sm:flex-nowrap sm:gap-1 sm:rounded-full sm:bg-white/[0.06] sm:p-1.5 sm:shadow-[inset_0_1px_0_rgb(255_255_255/0.18),inset_0_0_0_1px_rgb(255_255_255/0.09)] sm:backdrop-blur-[18px]"
+        >
           {newsCategories.map((c) => {
             const on = c === filter;
             return (
@@ -32,7 +36,7 @@ export function News() {
                   type="button"
                   aria-pressed={on}
                   onClick={() => setFilter(c)}
-                  className={`h-10 rounded-full px-4 text-[14px] font-semibold whitespace-nowrap transition-colors duration-200 active:translate-y-px ${on ? "bg-white text-bg" : "text-text/75 hover:bg-white/8 hover:text-white"}`}
+                  className={`h-10 rounded-full px-4 text-[14px] font-semibold whitespace-nowrap transition-colors duration-200 active:translate-y-px ${on ? "bg-white text-bg" : "bg-white/[0.06] text-text/80 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.1)] hover:bg-white/10 hover:text-white sm:bg-transparent sm:shadow-none sm:hover:bg-white/8"}`}
                 >
                   {c}
                 </button>
