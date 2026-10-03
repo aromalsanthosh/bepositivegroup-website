@@ -17,10 +17,16 @@ import { AwardsEvents } from "@/components/awards-events";
 import { Contact } from "@/components/contact";
 import { ClosingBanner } from "@/components/closing-banner";
 import { SiteFooter } from "@/components/site-footer";
+import { jsonLd } from "@/lib/seo";
 
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        // Static, trusted object; escape "<" so it can never close the tag.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
       <ScrollProgress />
       <SiteHeader />
       <main id="main">

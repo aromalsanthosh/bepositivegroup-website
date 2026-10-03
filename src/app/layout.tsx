@@ -2,12 +2,44 @@ import type { Metadata, Viewport } from "next";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { GlassSpotlight } from "@/components/glass-spotlight";
 import { Aurora } from "@/components/aurora";
+import { brand } from "@/content/site";
+import { seo, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Be Positive Group | Media, Tourism and Trading across India, Qatar and China",
-  description:
-    "Be Positive Group is a customer-centric, multi-vertical business group delivering Media, Tourism and Trading solutions across India, Qatar and China since 2010.",
+  metadataBase: new URL(siteUrl),
+  title: { default: seo.title, template: `%s | ${brand.name}` },
+  description: seo.description,
+  keywords: seo.keywords,
+  applicationName: brand.name,
+  authors: [{ name: brand.name, url: siteUrl }],
+  creator: brand.name,
+  publisher: brand.name,
+  category: "business",
+  alternates: { canonical: "/" },
+  formatDetection: { email: false, address: false, telephone: false },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: brand.name,
+    title: seo.title,
+    description: seo.description,
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seo.title,
+    description: seo.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+  },
+  // Add the token from Google Search Console as GOOGLE_SITE_VERIFICATION.
+  ...(process.env.GOOGLE_SITE_VERIFICATION && {
+    verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
+  }),
 };
 
 export const viewport: Viewport = {

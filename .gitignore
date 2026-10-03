@@ -45,3 +45,4 @@ next-env.d.ts
 
 # local Claude Code tooling
 /.claude
+scripts/og/og.png
