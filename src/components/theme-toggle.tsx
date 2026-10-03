@@ -4,7 +4,7 @@ import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import { Desktop, Moon, Sun } from "@phosphor-icons/react";
 
-const order = ["system", "light", "dark"] as const;
+const order = ["light", "dark", "system"] as const;
 type Mode = (typeof order)[number];
 
 const labels: Record<Mode, string> = {
@@ -17,13 +17,14 @@ const icons = { system: Desktop, light: Sun, dark: Moon };
 
 const subscribe = () => () => {};
 
-// Cycles system -> light -> dark. The stored theme is only known on the client,
-// so the server renders a neutral placeholder to avoid a hydration mismatch.
+// Cycles light -> dark -> system (light is the default). The stored theme is
+// only known on the client, so the server renders a neutral placeholder to
+// avoid a hydration mismatch.
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const mounted = useSyncExternalStore(subscribe, () => true, () => false);
 
-  const current: Mode = mounted && order.includes(theme as Mode) ? (theme as Mode) : "system";
+  const current: Mode = mounted && order.includes(theme as Mode) ? (theme as Mode) : "light";
   const next = order[(order.indexOf(current) + 1) % order.length];
   const Icon = icons[current];
 
