@@ -6,7 +6,11 @@ export function Intro() {
   return (
     <section id="intro" className="mx-auto max-w-[1240px] px-5 py-24 sm:py-36">
       <div className="grid gap-12 lg:grid-cols-12">
-        <p className="text-[15px] font-semibold text-blue-bright lg:col-span-3">More than a business</p>
+        <p className="text-[15px] font-semibold text-blue-bright lg:col-span-3">
+          More than a business.
+          <br />
+          <span className="text-muted">A growing ecosystem.</span>
+        </p>
         <div className="lg:col-span-9">
           <ScrollText
             text={intro.statement}

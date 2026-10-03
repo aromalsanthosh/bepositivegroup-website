@@ -13,6 +13,7 @@ import { About } from "@/components/about";
 import { Leadership } from "@/components/leadership";
 import { Network } from "@/components/network";
 import { News } from "@/components/news";
+import { AwardsEvents } from "@/components/awards-events";
 import { Contact } from "@/components/contact";
 import { ClosingBanner } from "@/components/closing-banner";
 import { SiteFooter } from "@/components/site-footer";
@@ -36,6 +37,7 @@ export default function Home() {
         <Leadership />
         <Network />
         <News />
+        <AwardsEvents />
         <Contact />
         <ClosingBanner />
       </main>

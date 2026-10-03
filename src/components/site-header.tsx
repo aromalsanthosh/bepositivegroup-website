@@ -16,12 +16,12 @@ export function SiteHeader() {
         <Logo className="h-8 w-auto sm:h-9" />
 
         <nav aria-label="Primary" className="hidden lg:block">
-          <ul className="flex items-center gap-1 text-[15px] font-medium text-text/80">
+          <ul className="flex items-center text-[14px] font-medium whitespace-nowrap text-text/80 xl:gap-1 xl:text-[15px]">
             {nav.map((item) => (
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className="rounded-full px-3.5 py-2 transition-colors duration-200 hover:bg-white/8 hover:text-white"
+                  className="rounded-full px-2.5 py-2 transition-colors xl:px-3.5 duration-200 hover:bg-white/8 hover:text-white"
                 >
                   {item.label}
                 </a>

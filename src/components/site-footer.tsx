@@ -5,14 +5,14 @@ export function SiteFooter() {
   return (
     <footer className="px-3 pb-6 sm:px-5">
       <div className="lg mx-auto max-w-[1340px] rounded-[36px] px-6 py-12 sm:px-12">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-5">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+          <div className="sm:col-span-2 lg:col-span-4">
             <Logo className="h-11 w-auto" />
             <p className="mt-6 text-[17px] font-semibold tracking-[-0.01em]">{brand.tagline}</p>
             <p className="mt-1 text-[14px] tracking-[0.08em] text-muted uppercase">Media | Tourism | Trading</p>
           </div>
           {Object.entries(footer.columns).map(([title, links]) => (
-            <nav key={title} aria-label={title} className="lg:col-span-2">
+            <nav key={title} aria-label={title} className={title === "Presence" ? "lg:col-span-1" : "lg:col-span-2"}>
               <h2 className="text-[14px] font-semibold text-silver">{title}</h2>
               <ul className="mt-4 flex flex-col gap-2.5 text-[15px]">
                 {links.map((l) => (
@@ -33,7 +33,16 @@ export function SiteFooter() {
                   {brand.email}
                 </a>
               </li>
-              <li className="text-text/70">India (Kerala) · Qatar · China</li>
+              <li>
+                <a href={`https://${brand.web}`} className="text-text/70 transition-colors hover:text-white">
+                  {brand.web.replace(/^www\./, "")}
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="text-text/70 transition-colors hover:text-white">
+                  Send an enquiry
+                </a>
+              </li>
             </ul>
           </div>
         </div>

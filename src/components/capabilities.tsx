@@ -61,7 +61,7 @@ export function Capabilities() {
         label="Media capabilities"
         title="Eight capabilities."
         accent="One media partner."
-        intro="Each works on its own. Together they cover a brand's whole journey, from strategy to the physical world."
+        intro="Choose a capability to see what it covers. Each one works on its own, and together they cover a brand's full journey from strategy to the physical world."
       />
 
       <CapabilityAccordion />

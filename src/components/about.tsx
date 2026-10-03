@@ -27,7 +27,7 @@ export function About() {
                   {brand.since}
                 </p>
               </div>
-              <p className="max-w-[20ch] pb-3 text-right text-[15px] leading-snug text-muted">The year Be Positive Group began.</p>
+              <p className="max-w-[20ch] pb-3 text-right text-[15px] leading-snug text-muted">The year Be Positive Group was established.</p>
             </div>
           </Reveal>
           {[

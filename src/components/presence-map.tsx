@@ -163,7 +163,7 @@ export function PresenceMap({ dotsPath, width, height, points }: Props) {
           >
             <p className="text-[14px] font-semibold text-blue-bright">{m.role}</p>
             <h3 className="mt-1 font-display text-[26px] font-semibold tracking-[-0.025em]">
-              {m.country} <span className="text-[17px] font-medium text-muted">{m.city}</span>
+              {m.country}{m.city && <span className="text-[17px] font-medium text-muted"> {m.city}</span>}
             </h3>
             <p className="mt-2 text-[15px] leading-relaxed text-muted">{m.focus}</p>
           </li>

@@ -1,7 +1,7 @@
 import { HeroCards } from "@/components/hero-cards";
 import { Pill } from "@/components/pill";
 import { DotField } from "@/components/motion/dot-field";
-import { cta, hero } from "@/content/site";
+import { hero } from "@/content/site";
 
 export function Hero() {
   return (
@@ -31,11 +31,11 @@ export function Hero() {
             {hero.subtext}
           </p>
           <div className="animate-rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: "460ms" }}>
-            <Pill href={cta.href} arrow>
-              {cta.label}
+            <Pill href="#verticals" arrow>
+              Explore our group
             </Pill>
-            <Pill href="#verticals" variant="secondary">
-              Explore the group
+            <Pill href="#media" variant="secondary">
+              Explore Media
             </Pill>
           </div>
           <dl className="animate-rise mt-12 flex flex-wrap gap-x-10 gap-y-4" style={{ animationDelay: "540ms" }}>
