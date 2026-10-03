@@ -10,9 +10,9 @@ export function SiteHeader() {
 
   return (
     <header className="glass-bar sticky top-0 z-40">
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-6 px-5">
-        <div className="flex items-center gap-3">
-          <Logo className="h-10 w-auto" />
+      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-3 px-4 sm:gap-6 sm:px-5">
+        <div className="flex min-w-0 items-center gap-3">
+          <Logo className="h-9 w-auto sm:h-10" />
           <span className="hidden font-brand text-[19px] leading-none tracking-[0.06em] text-silver uppercase sm:inline">
             Media
           </span>
@@ -30,12 +30,12 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <a
             href="#live"
-            className="inline-flex h-9 items-center gap-2 rounded-full bg-blue px-4 text-[14px] font-semibold text-white transition-colors hover:bg-[#2b68ff]"
+            className="inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full bg-blue px-3 text-[13px] font-semibold text-white transition-colors hover:bg-[#2b68ff] sm:gap-2 sm:px-4 sm:text-[14px]"
           >
-            <span className="live-dot size-2 rounded-full bg-white" aria-hidden />
+            <span className="live-dot size-1.5 rounded-full bg-white sm:size-2" aria-hidden />
             Watch live
           </a>
           <button
