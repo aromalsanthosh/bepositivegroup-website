@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+/*
+  BPG Media design tokens. Dark only (broadcast feel, after cindori.com/backdrop).
+  Blues derive from the BPG logo navy #07296C; silver from the crest.
+  One accent (signal blue) for actions. Red is reserved for the live state.
+  Shapes: pills for interactive elements, 18px for cards/panels, 12px for tiles.
+*/
+:root {
+  color-scheme: dark;
+  --bg: #030407;
+  --surface: #0a0d14;
+  --card: #0f1320;
+  --line: rgb(255 255 255 / 0.08);
+  --text: #f4f6fa;
+  --muted: #8d95a6;
+  --silver: #c9ced8;
+  --navy: #07296c;
+  --blue: #1d5bf0;
+  --blue-bright: #6f9bff;
+  --live: #ff3b4a;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-silver: var(--silver);
+  --color-navy: var(--navy);
+  --color-blue: var(--blue);
+  --color-blue-bright: var(--blue-bright);
+  --color-live: var(--live);
+
+  /* Same system stack as cindori.com: SF Pro on Apple devices. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue",
+    sans-serif;
+  --font-brand: var(--font-audiowide);
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto,
+    "Helvetica Neue", sans-serif;
+}
+
+html {
+  font-size: 106.25%; /* 17px base, as on cindori.com */
+  scroll-padding-top: 4.5rem;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--blue);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue-bright);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Frosted glass with an inner top highlight, cindori-style. Solid fallback
+   when the user asks for reduced transparency. */
+.glass {
+  background: rgb(40 46 64 / 0.32);
+  backdrop-filter: saturate(1.8) blur(16px);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.1),
+    inset 0 1px 0 rgb(255 255 255 / 0.12);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: rgb(22 26 38 / 0.96);
+    backdrop-filter: none;
+  }
+}
+
+/* Navigation bar: denser glass so content never reads through it. */
+.glass-bar {
+  background: rgb(8 10 16 / 0.78);
+  backdrop-filter: saturate(1.8) blur(20px);
+  box-shadow: inset 0 -1px 0 rgb(255 255 255 / 0.08);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass-bar {
+    background: rgb(8 10 16 / 0.98);
+    backdrop-filter: none;
+  }
+}
+
+/* Dark gradient card with a hairline highlight: reads as glass without the
+   cost of blurring a flat background. */
+.card {
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgb(29 91 240 / 0.08), transparent 60%),
+    linear-gradient(180deg, #11162a 0%, #0b0e19 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.07),
+    inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+
+/* Rotating conic ring for the featured upcoming card. */
+@property --ring-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.ring {
+  position: relative;
+  isolation: isolate;
+}
+
+.ring::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--ring-angle),
+    transparent 0deg,
+    transparent 70deg,
+    rgb(29 91 240 / 0.15) 95deg,
+    rgb(111 155 255 / 0.85) 140deg,
+    #d7e3ff 180deg,
+    rgb(111 155 255 / 0.85) 220deg,
+    rgb(29 91 240 / 0.15) 265deg,
+    transparent 290deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: ring-spin 6s linear infinite;
+}
+
+@keyframes ring-spin {
+  to {
+    --ring-angle: 360deg;
+  }
+}
+
+/* Collage rows: each track holds two identical halves so -50% loops. */
+@keyframes marquee-left {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-left {
+  animation: marquee-left 70s linear infinite;
+}
+
+.marquee-right {
+  animation: marquee-right 80s linear infinite;
+}
+
+/* Hero entrance in CSS so it never waits on hydration. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.live-dot {
+  animation: live-pulse 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring::before,
+  .marquee-left,
+  .marquee-right,
+  .animate-rise,
+  .live-dot {
+    animation: none;
+  }
+}

@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The media site (media/) is a separate Next.js app with its own config.
+    "media/**",
   ]),
 ]);
 

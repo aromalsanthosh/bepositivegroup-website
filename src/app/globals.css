@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* media/ is a separate app; keep its classes out of this stylesheet. */
+@source not "../../media";
+
 /* Theme is set by next-themes as data-theme on <html> (light, dark, or resolved system). */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
