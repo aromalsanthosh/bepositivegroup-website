@@ -26,7 +26,7 @@ export function ScrollProgress() {
       // Initial scale inline: Tailwind's scale-x-* uses the `scale` property,
       // which would compound with GSAP's transform.
       style={{ transform: "scaleX(0)" }}
-      className="pointer-events-none absolute inset-x-0 -bottom-px h-0.5 origin-left bg-accent will-change-transform"
+      className="pointer-events-none fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-gradient-to-r from-blue to-blue-bright will-change-transform"
     />
   );
 }

@@ -1,52 +1,32 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { GlassSpotlight } from "@/components/glass-spotlight";
+import { Aurora } from "@/components/aurora";
 import "./globals.css";
 
-const archivo = Archivo({
-  variable: "--font-archivo",
-  subsets: ["latin"],
-  axes: ["wdth"],
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
-
 export const metadata: Metadata = {
-  title: "Be Positive Group | Printing, Signage and Interior Fit-out in Qatar",
+  title: "Be Positive Group | Media, Tourism and Trading across India, Qatar and China",
   description:
-    "Be Positive Group brings together Green Print, Brandscape Advertising, Brandscape Fitout and Brandscape.Shop: commercial printing, signage, exhibition stands and interior fit-out in Doha since 2010.",
+    "Be Positive Group is a customer-centric, multi-vertical business group delivering Media, Tourism and Trading solutions across India, Qatar and China since 2010.",
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f5f2" },
-    { media: "(prefers-color-scheme: dark)", color: "#0e120f" },
-  ],
+  themeColor: "#02040a",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    // next-themes sets data-theme on <html> before hydration.
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${archivo.variable} ${plexMono.variable} antialiased`}
-    >
+    <html lang="en">
       <body className="min-h-dvh font-sans">
-        <ThemeProvider>
-          <a
-            href="#main"
-            className="sr-only z-50 rounded bg-ink px-4 py-3 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
-          >
-            Skip to content
-          </a>
-          <SmoothScroll>{children}</SmoothScroll>
-        </ThemeProvider>
+        <a
+          href="#main"
+          className="sr-only z-50 rounded-full bg-white px-4 py-2 text-black focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+        >
+          Skip to content
+        </a>
+        <Aurora />
+        <GlassSpotlight />
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );

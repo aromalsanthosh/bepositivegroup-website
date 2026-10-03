@@ -4,9 +4,9 @@ import { useEffect, useRef } from "react";
 
 const SPACING = 26; // px between dots
 const BASE_R = 1; // resting dot radius
-const RADIUS = 140; // cursor influence radius
-const GROW = 2.2; // extra radius at the cursor
-const PUSH = 9; // max displacement away from the cursor
+const RADIUS = 190; // cursor influence radius
+const GROW = 3.4; // extra radius at the cursor
+const PUSH = 14; // max displacement away from the cursor
 
 type Rgb = [number, number, number];
 
@@ -21,7 +21,7 @@ function readRgb(el: Element, prop: string): Rgb {
 }
 
 // Halftone-style dot grid behind a section. Dots near the cursor grow, turn
-// brand green and ease away from it, then settle back. One canvas, and the
+// brand blue and ease away from it, then settle back. One canvas, and the
 // draw loop only runs while the cursor moves or dots are still settling, so an
 // idle page costs nothing. Static (no interaction) on touch devices and under
 // prefers-reduced-motion.
@@ -42,7 +42,7 @@ export function DotField({ className = "" }: { className?: string }) {
     let height = 0;
     let dpr = 1;
     let dot: Rgb = [0, 0, 0];
-    let accent: Rgb = [1, 198, 92];
+    let accent: Rgb = [111, 155, 255];
     let dotAlpha = 0.3;
 
     // Pointer state in host coordinates: raw target, smoothed position, and an
@@ -55,9 +55,10 @@ export function DotField({ className = "" }: { className?: string }) {
 
     const readColors = () => {
       const root = document.documentElement;
-      dot = readRgb(root, "--muted");
-      accent = readRgb(root, "--accent");
-      dotAlpha = root.dataset.theme === "dark" ? 0.35 : 0.28;
+      // Silver dots, brand blue highlight (BPG Media is dark-only).
+      dot = readRgb(root, "--silver");
+      accent = readRgb(root, "--blue-bright");
+      dotAlpha = 0.2;
     };
 
     const resize = () => {
@@ -100,7 +101,7 @@ export function DotField({ className = "" }: { className?: string }) {
 
       for (const [x, y, d2] of near) {
         const d = Math.sqrt(d2) || 1;
-        const t = (1 - d / RADIUS) ** 2 * cur.on; // eased falloff
+        const t = (1 - d / RADIUS) ** 1.6 * cur.on; // eased falloff (softer = wider glow)
         const px = x + ((x - cur.x) / d) * PUSH * t;
         const py = y + ((y - cur.y) / d) * PUSH * t;
         const r = BASE_R + GROW * t;

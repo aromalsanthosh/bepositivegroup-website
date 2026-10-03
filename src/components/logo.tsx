@@ -1,24 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// Raster logo derived from the client's PNG. Swap for the vector master once supplied.
-export function Logo({ className = "h-10 w-auto" }: { className?: string }) {
+// Be Positive Group crest lockup (from BPG-BS-GP 2025.ai), reversed for the
+// dark theme. Swap for the vector master once supplied.
+export function Logo({ className = "h-9 w-auto" }: { className?: string }) {
   return (
     <Link href="/" aria-label="Be Positive Group home" className="inline-flex shrink-0">
       <Image
-        src="/images/brand/logo.png"
+        src="/images/v2/brand/bpg-lockup-reversed.webp"
         alt="Be Positive Group"
-        width={733}
-        height={346}
+        width={1006}
+        height={323}
         preload
-        className={`${className} dark:hidden`}
-      />
-      <Image
-        src="/images/brand/logo-on-dark.png"
-        alt="Be Positive Group"
-        width={733}
-        height={346}
-        className={`${className} hidden dark:block`}
+        className={className}
       />
     </Link>
   );

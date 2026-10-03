@@ -1,74 +1,52 @@
-import { MapPin } from "@phosphor-icons/react/ssr";
-import { address, contactEmail, offices, quoteCta } from "@/content/site";
-import { Button } from "@/components/button";
-import { Reveal } from "@/components/reveal";
-import { MaskHeading } from "@/components/motion/mask-heading";
+import { EnvelopeSimple, Globe, MapPin } from "@phosphor-icons/react/ssr";
+import { brand, contact } from "@/content/site";
+import { SectionHeading } from "@/components/section-heading";
+import { ContactForm } from "@/components/contact-form";
 import { DotField } from "@/components/motion/dot-field";
+import { Reveal } from "@/components/motion/reveal";
 
 export function Contact() {
-  const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent("Quote request")}`;
+  const items = [
+    { icon: EnvelopeSimple, label: "Email", value: brand.email, href: `mailto:${brand.email}` },
+    { icon: Globe, label: "Web", value: brand.web, href: `https://${brand.web}` },
+    { icon: MapPin, label: "Presence", value: contact.presence },
+  ];
 
   return (
-    <section
-      id="contact"
-      className="relative isolate mx-auto max-w-[1400px] px-5 py-20 lg:px-10 lg:py-32"
-    >
-      <DotField className="[mask-image:radial-gradient(ellipse_at_center,black_35%,transparent_80%)]" />
-      <MaskHeading className="font-display max-w-[16ch] text-[clamp(2.25rem,5vw,4.25rem)] leading-[1.02]">
-        Tell us what you need produced.
-      </MaskHeading>
-      <Reveal>
-        <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-muted">
-          Send a brief, drawings or a rough idea and the right team will get back to you.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-          <Button href={mailto}>{quoteCta.label}</Button>
-          <a
-            href={`mailto:${contactEmail}`}
-            className="text-[15px] font-medium underline-offset-4 hover:underline"
-          >
-            {contactEmail}
-          </a>
+    <section id="contact" className="relative isolate mx-auto max-w-[1240px] px-5 py-24 sm:py-32">
+      <DotField className="[mask-image:radial-gradient(ellipse_at_center,black_25%,transparent_75%)]" />
+      <div className="grid gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <SectionHeading label="Contact" title="Let's create" accent="something positive." intro={contact.intro} />
+          <Reveal>
+            <ul className="mt-10 flex flex-col gap-3">
+              {items.map(({ icon: Icon, label, value, href }) => (
+                <li key={label}>
+                  {href ? (
+                    <a href={href} className="lg-thin flex items-center gap-4 rounded-[20px] p-4 transition-colors hover:bg-white/8">
+                      <Icon size={22} className="text-blue-bright" aria-hidden />
+                      <span>
+                        <span className="block text-[13px] text-muted">{label}</span>
+                        <span className="block text-[16px] font-semibold">{value}</span>
+                      </span>
+                    </a>
+                  ) : (
+                    <div className="lg-thin flex items-center gap-4 rounded-[20px] p-4">
+                      <Icon size={22} className="text-blue-bright" aria-hidden />
+                      <span>
+                        <span className="block text-[13px] text-muted">{label}</span>
+                        <span className="block text-[16px] font-semibold">{value}</span>
+                      </span>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
-      </Reveal>
-
-      <div className="mt-16 grid gap-10 border-t border-line pt-10 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">
-        <div>
-          <h3 className="text-[15px] text-muted">Visit us</h3>
-          <address className="mt-3 leading-relaxed not-italic">
-            {address.lines.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-          </address>
-          <a
-            href={address.mapUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-4 inline-flex h-11 items-center gap-2 text-[15px] font-medium underline-offset-4 hover:underline"
-          >
-            <MapPin size={18} aria-hidden />
-            Open in Google Maps
-          </a>
-        </div>
-
-        {offices.map((office) => (
-          <div key={office.name}>
-            <h3 className="text-[15px] text-muted">{office.name}</h3>
-            <p className="mt-3 leading-relaxed">{office.building}</p>
-            <p className="leading-relaxed">
-              <a href={`tel:${office.phone.replace(/\s/g, "")}`} className="hover:underline">
-                {office.phone}
-              </a>
-            </p>
-            <p className="leading-relaxed">
-              <a href={`mailto:${office.email}`} className="break-all hover:underline">
-                {office.email}
-              </a>
-            </p>
-          </div>
-        ))}
+        <Reveal delay={0.1} className="lg:col-span-7">
+          <ContactForm />
+        </Reveal>
       </div>
     </section>
   );

@@ -1,54 +1,44 @@
-import { FacebookLogo, InstagramLogo } from "@phosphor-icons/react/ssr";
 import { Logo } from "@/components/logo";
-import { nav, social } from "@/content/site";
-
-const icons = { Instagram: InstagramLogo, Facebook: FacebookLogo } as const;
+import { brand, footer } from "@/content/site";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-surface">
-      <div className="mx-auto max-w-[1400px] px-5 py-14 lg:px-10">
-        <div className="grid gap-10 lg:grid-cols-12">
+    <footer className="px-3 pb-6 sm:px-5">
+      <div className="lg mx-auto max-w-[1340px] rounded-[36px] px-6 py-12 sm:px-12">
+        <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <Logo className="h-12 w-auto" />
-            <p className="mt-6 max-w-[38ch] leading-relaxed text-muted">
-              Printing, advertising, branding and interior fit-out in Qatar since 2010.
-            </p>
+            <Logo className="h-11 w-auto" />
+            <p className="mt-6 text-[17px] font-semibold tracking-[-0.01em]">{brand.tagline}</p>
+            <p className="mt-1 text-[14px] tracking-[0.08em] text-muted uppercase">Media | Tourism | Trading</p>
           </div>
-
-          <nav aria-label="Footer" className="lg:col-span-4">
-            <ul className="grid grid-cols-2 gap-y-3 text-[15px]">
-              {nav.map((item) => (
-                <li key={item.href}>
-                  <a href={item.href} className="hover:underline">
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+          {Object.entries(footer.columns).map(([title, links]) => (
+            <nav key={title} aria-label={title} className="lg:col-span-2">
+              <h2 className="text-[14px] font-semibold text-silver">{title}</h2>
+              <ul className="mt-4 flex flex-col gap-2.5 text-[15px]">
+                {links.map((l) => (
+                  <li key={l.label}>
+                    <a href={l.href} className="text-text/70 transition-colors hover:text-white">
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+          <div className="lg:col-span-3">
+            <h2 className="text-[14px] font-semibold text-silver">Connect</h2>
+            <ul className="mt-4 flex flex-col gap-2.5 text-[15px]">
+              <li>
+                <a href={`mailto:${brand.email}`} className="text-text/70 transition-colors hover:text-white">
+                  {brand.email}
+                </a>
+              </li>
+              <li className="text-text/70">India (Kerala) · Qatar · China</li>
             </ul>
-          </nav>
-
-          <ul className="flex gap-3 lg:col-span-3 lg:justify-end">
-            {social.map((item) => {
-              const Icon = icons[item.label as keyof typeof icons];
-              return (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`${item.label} (opens in a new tab)`}
-                    className="inline-flex size-11 items-center justify-center rounded border border-line transition-colors hover:border-ink"
-                  >
-                    <Icon size={20} aria-hidden />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
+          </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-line pt-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 text-[13px] text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Be Positive Group. All rights reserved.</p>
           <p>
             Made with{" "}
@@ -56,12 +46,7 @@ export function SiteFooter() {
               ❤️
             </span>{" "}
             by{" "}
-            <a
-              href="https://aromalsanthosh.com"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium text-ink underline-offset-4 hover:underline"
-            >
+            <a href="https://aromalsanthosh.com" target="_blank" rel="noreferrer" className="font-semibold text-text underline-offset-4 hover:underline">
               Aromal S<span className="sr-only"> (opens in a new tab)</span>
             </a>
           </p>

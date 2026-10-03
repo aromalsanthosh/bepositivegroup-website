@@ -1,44 +1,57 @@
-import { Button } from "@/components/button";
-import { ParallaxImage } from "@/components/motion/parallax-image";
+import { HeroCards } from "@/components/hero-cards";
+import { Pill } from "@/components/pill";
 import { DotField } from "@/components/motion/dot-field";
-import { quoteCta } from "@/content/site";
+import { cta, hero } from "@/content/site";
 
 export function Hero() {
   return (
-    <section className="relative isolate mx-auto max-w-[1400px] px-5 pt-10 pb-16 lg:px-10 lg:pt-14 lg:pb-24">
-      <DotField className="[mask-image:radial-gradient(ellipse_at_center,black_35%,transparent_80%)]" />
-      <h1 className="font-display animate-rise max-w-[16ch] text-[clamp(2.5rem,6vw,5.25rem)] leading-[1.02] text-balance">
-        Printed, built and fitted out in Doha.
-      </h1>
-
-      <div className="mt-10 grid gap-8 lg:mt-14 lg:grid-cols-12 lg:gap-10">
-        <div
-          className="animate-rise flex flex-col gap-8 lg:col-span-4"
-          style={{ animationDelay: "120ms" }}
-        >
-          <p className="max-w-[40ch] text-lg leading-relaxed text-muted">
-            Be Positive Group brings four specialist companies under one roof: commercial
-            printing, signage, exhibition stands and interior fit-out, since 2010.
+    <section className="relative isolate overflow-hidden">
+      <DotField className="[mask-image:radial-gradient(ellipse_at_center,black_25%,transparent_75%)]" />
+      <div className="mx-auto grid min-h-[100dvh] max-w-[1240px] items-center gap-12 px-5 pt-32 pb-16 lg:grid-cols-12 lg:gap-8 lg:pt-28">
+        <div className="lg:col-span-7">
+          <p className="lg-thin animate-rise inline-flex items-center gap-2 rounded-full px-4 py-2 text-[14px] font-semibold text-text/90">
+            <span className="size-1.5 rounded-full bg-blue-bright" aria-hidden />
+            {hero.eyebrow}
           </p>
-          <div className="flex flex-wrap gap-3">
-            <Button href={quoteCta.href}>{quoteCta.label}</Button>
-            <Button href="#companies" variant="secondary">
-              Our companies
-            </Button>
+          <h1 className="mt-7 font-display text-[clamp(2.2rem,3.9vw,3.6rem)] leading-[1.04] font-semibold tracking-[-0.04em]">
+            {hero.lines.map((line, i) => (
+              <span
+                key={line}
+                className={`animate-rise block ${i === hero.lines.length - 1 ? "text-sheen pb-[0.08em]" : ""}`}
+                style={{ animationDelay: `${80 + i * 90}ms` }}
+              >
+                {line}
+              </span>
+            ))}
+          </h1>
+          <p
+            className="animate-rise mt-7 max-w-[44ch] text-[clamp(1.05rem,1.4vw,1.25rem)] leading-relaxed text-muted"
+            style={{ animationDelay: "380ms" }}
+          >
+            {hero.subtext}
+          </p>
+          <div className="animate-rise mt-9 flex flex-wrap gap-3" style={{ animationDelay: "460ms" }}>
+            <Pill href={cta.href} arrow>
+              {cta.label}
+            </Pill>
+            <Pill href="#verticals" variant="secondary">
+              Explore the group
+            </Pill>
           </div>
+          <dl className="animate-rise mt-12 flex flex-wrap gap-x-10 gap-y-4" style={{ animationDelay: "540ms" }}>
+            {[
+              ["Markets", "India · Qatar · China"],
+              ["Verticals", "Media · Tourism · Trading"],
+            ].map(([k, v]) => (
+              <div key={k}>
+                <dt className="text-[13px] text-muted">{k}</dt>
+                <dd className="mt-1 text-[15px] font-semibold">{v}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
-
-        <div
-          className="animate-settle relative aspect-[4/3] overflow-hidden rounded bg-surface lg:col-span-8 lg:aspect-[16/9]"
-          style={{ animationDelay: "200ms" }}
-        >
-          <ParallaxImage
-            src="/images/work/showroom-signage.jpg"
-            alt="Car showroom interior with illuminated wall signage and timber ceiling"
-            preload
-            amount={6}
-            sizes="(min-width: 1400px) 880px, (min-width: 1024px) 64vw, 100vw"
-          />
+        <div className="lg:col-span-5">
+          <HeroCards />
         </div>
       </div>
     </section>
