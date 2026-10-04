@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Audiowide } from "next/font/google";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 // Closest Google Font to the BPG logo wordmark (wide, rounded, techno).
 const audiowide = Audiowide({ variable: "--font-audiowide", subsets: ["latin"], weight: "400" });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://media.bepositivegroup.com";
 const title = "BPG Media | Kerala Boat Race Live Streaming";
 const description =
   "Watch Champions Boat League races and Kerala's biggest water festivals streamed live by BPG Media, part of Be Positive Group. Free on YouTube.";
