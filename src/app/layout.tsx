@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { GlassSpotlight } from "@/components/glass-spotlight";
 import { Aurora } from "@/components/aurora";
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Aurora />
         <GlassSpotlight />
         <SmoothScroll>{children}</SmoothScroll>
+        <Analytics />
       </body>
     </html>
   );
