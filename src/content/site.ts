@@ -197,15 +197,17 @@ export const fallbackStream = {
   thumbnail: "/images/v2/news/7TlMjIDn7TU.webp",
 };
 
-// CONFIRM: verified client list and official logo files still to be supplied.
-// White transparent marks generated from the client JPGs.
-export const clients = [
-  { name: "Qatar Airways", src: "/images/v2/clients/qatar-airways.png", w: 267, h: 76 },
-  { name: "Hamad International Airport", src: "/images/v2/clients/hamad-airport.png", w: 262, h: 94 },
-  { name: "Ooredoo", src: "/images/v2/clients/ooredoo.png", w: 264, h: 47 },
-  { name: "Qatar Foundation", src: "/images/v2/clients/qatar-foundation.png", w: 217, h: 158 },
-  { name: "United Development Company", src: "/images/v2/clients/udc.png", w: 235, h: 151 },
-  { name: "Qatar Duty Free", src: "/images/v2/clients/qatar-duty-free.png", w: 178, h: 159 },
+// Official logos (Oct 2026): Qatar Airways newsroom media kit, Hamad
+// International Airport, Ooredoo and UDC site headers, Qatar Foundation logo
+// page, Qatar Duty Free from Wikimedia Commons, as "<src>-color.png".
+// CONFIRM: client list to be verified by the group.
+export const clients: { name: string; src: string; w: number; h: number; url: string; boost?: number }[] = [
+  { name: "Qatar Airways", src: "qatar-airways", w: 506, h: 149, url: "https://www.qatarairways.com/" },
+  { name: "Hamad International Airport", src: "hamad-airport", w: 668, h: 240, url: "https://dohahamadairport.com/", boost: 1.18 },
+  { name: "Ooredoo", src: "ooredoo", w: 1204, h: 240, url: "https://www.ooredoo.qa/" },
+  { name: "Qatar Foundation", src: "qatar-foundation", w: 319, h: 240, url: "https://www.qf.org.qa/", boost: 1.22 },
+  { name: "United Development Company", src: "udc", w: 204, h: 134, url: "https://udcqatar.com/", boost: 1.4 },
+  { name: "Qatar Duty Free", src: "qatar-duty-free", w: 455, h: 120, url: "https://www.qatardutyfree.com/", boost: 1.1 },
 ];
 
 export type EnquiryRoute = { id: string; label: string; to: string; company: string };
