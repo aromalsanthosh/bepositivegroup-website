@@ -18,7 +18,7 @@ function Row({ items, direction }: { items: Photo[]; direction: "left" | "right"
               src={p.src}
               alt={i >= items.length ? "" : p.alt}
               fill
-              sizes="320px"
+              sizes="(min-width: 640px) 320px, 260px"
               className="object-cover"
             />
           </li>

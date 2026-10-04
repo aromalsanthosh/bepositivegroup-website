@@ -17,7 +17,7 @@ export function Hero() {
       />
       <DotField className="[mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_78%)]" />
       <div className="mx-auto flex max-w-[1200px] flex-col items-center px-5 pt-8 pb-16 text-center sm:pt-10">
-        <div className="animate-rise w-full">
+        <div className="animate-rise-solid w-full">
           <HeroScreen src="/images/gallery/bpg-race-07.webp" alt="PBC Pallathuruthy crew in perfect sync at the prow" />
         </div>
 

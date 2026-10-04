@@ -67,8 +67,8 @@ export function BrandEmblem({ className = "" }: { className?: string }) {
         <img
           src={POSTER}
           alt=""
-          width={1080}
-          height={1080}
+          width={880}
+          height={880}
           className="absolute inset-0 size-full mix-blend-screen"
         />
       )}

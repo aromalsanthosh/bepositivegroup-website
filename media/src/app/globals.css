@@ -242,6 +242,18 @@ h3 {
   animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Motion without the fade, for the LCP element: it stays fully opaque so the
+   browser (and PageSpeed) counts it as painted on the first frame. */
+@keyframes rise-solid {
+  from {
+    transform: translateY(26px);
+  }
+}
+
+.animate-rise-solid {
+  animation: rise-solid 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @keyframes live-pulse {
   0%,
   100% {
@@ -261,6 +273,7 @@ h3 {
   .marquee-left,
   .marquee-right,
   .animate-rise,
+  .animate-rise-solid,
   .live-dot {
     animation: none;
   }

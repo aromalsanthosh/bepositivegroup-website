@@ -21,28 +21,28 @@ function LogoSet({ hidden = false }: { hidden?: boolean }) {
         const h = Math.min(44 * boost, (136 * boost * client.h) / client.w);
         const w = Math.round((h * client.w) / client.h);
         return (
-          <li key={`${client.name}-${i}`} className={i >= clients.length ? "motion-reduce:hidden" : undefined}>
+          <li key={`${client.name}-${i}`} aria-hidden={copy || undefined} className={i >= clients.length ? "motion-reduce:hidden" : undefined}>
             <a
               href={client.url}
               target="_blank"
               rel="noreferrer"
               tabIndex={copy ? -1 : undefined}
+              aria-label={`${client.name} (opens in a new tab)`}
               className="flex h-[70px] w-[152px] items-center justify-center rounded-[20px] bg-gradient-to-b from-white/[0.92] to-white/[0.78] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),inset_0_0_0_1px_rgba(255,255,255,0.35),0_14px_34px_-16px_rgba(0,0,0,0.7)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:from-white hover:to-white/95 sm:h-[84px] sm:w-[184px]"
             >
               <Image
-                src={`${DIR}/${client.src}-color.png`}
-                alt={copy ? "" : client.name}
+                src={`${DIR}/${client.src}.webp`}
+                alt=""
                 width={client.w}
                 height={client.h}
                 // Lazy loading misses tiles that slide in via the marquee transform.
                 loading="eager"
-                // Small pre-sized PNGs: serve as-is, skipping the optimiser cache.
+                // Pre-sized WebPs at 2x their display size: served as-is.
                 unoptimized
                 // Scaled to 82% on phones, where the tiles are smaller.
                 style={{ "--w": `${w}px`, "--h": `${h}px` } as React.CSSProperties}
                 className="h-[calc(var(--h)*0.82)] w-[calc(var(--w)*0.82)] object-contain sm:h-(--h) sm:w-(--w)"
               />
-              {!copy && <span className="sr-only"> (opens in a new tab)</span>}
             </a>
           </li>
         );

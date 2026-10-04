@@ -11,7 +11,7 @@ export function SiteFooter() {
             <Logo className="h-10 w-auto" />
             <p className="mt-4 max-w-[34ch] text-[14px] leading-relaxed text-muted">
               BPG Media is the live streaming arm of{" "}
-              <a href="https://bepositivegroup.com" target="_blank" rel="noreferrer" className="text-text hover:underline">
+              <a href="https://bepositivegroup.com" target="_blank" rel="noreferrer" className="text-text underline decoration-white/35 underline-offset-4 transition-colors hover:decoration-white">
                 Be Positive Group
               </a>
               .
@@ -22,7 +22,7 @@ export function SiteFooter() {
             <ul className="grid grid-cols-2 gap-x-10 gap-y-2.5 text-[14px] sm:grid-cols-3">
               {nav.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href} className="text-text/80 hover:text-white">
+                  <a href={item.href} className="inline-block py-1.5 text-text/80 hover:text-white">
                     {item.label}
                   </a>
                 </li>

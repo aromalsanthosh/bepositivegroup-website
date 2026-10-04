@@ -224,6 +224,18 @@ h3 {
   animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Motion without the fade, for the LCP element: it stays fully opaque so the
+   browser (and PageSpeed) counts it as painted on the first frame. */
+@keyframes rise-solid {
+  from {
+    transform: translateY(26px);
+  }
+}
+
+.animate-rise-solid {
+  animation: rise-solid 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* Slow idle float for the hero's glass cards. */
 @keyframes float {
   0%,
@@ -259,6 +271,7 @@ h3 {
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
   .animate-rise,
+  .animate-rise-solid,
   .animate-float,
   .pulse-ring {
     animation: none;

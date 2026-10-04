@@ -2,10 +2,12 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { gsap, useGSAP, EASE, MOTION_OK } from "@/lib/gsap";
+import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { verticals, brand } from "@/content/site";
 
-// Stack of floating liquid-glass cards. On desktop each layer sits at a
+// Stack of floating liquid-glass cards. Each card fades up with a CSS
+// animation (starts on first paint, unlike a JS tween that waits for
+// hydration and delays LCP); GSAP drives only scroll depth and pointer tilt. On desktop each layer sits at a
 // different depth: they tilt toward the pointer (quickTo, no React state) and
 // drift apart on scroll. Below lg the cards fall back to a clean grid (Media
 // full width, Tourism and Trading side by side) so nothing overlaps.
@@ -16,17 +18,6 @@ export function HeroCards() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
-        gsap.from(".hc", {
-          y: 70,
-          opacity: 0,
-          rotateX: -12,
-          duration: 1.3,
-          ease: EASE,
-          stagger: 0.12,
-          delay: 0.25,
-        });
-      });
 
       // Scroll depth (desktop layered composition only): deeper layers move less.
       mm.add(`${MOTION_OK} and (min-width: 1024px)`, () => {
@@ -82,27 +73,29 @@ export function HeroCards() {
           className="hc relative z-20 col-span-2 lg:absolute lg:inset-x-[4%] lg:top-[7%]"
           data-depth="1.4"
         >
-          <div className="hc-shift" data-depth="1.4">
-            <div className="lg animate-float overflow-hidden rounded-[30px] p-3">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-[22px]">
-                <Image
-                  src={media.image}
-                  alt={media.alt}
-                  fill
-                  preload
-                  sizes="(min-width: 1024px) 480px, 92vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex items-center justify-between gap-3 px-2 pt-4 pb-1.5">
-                <div>
-                  <p className="text-[19px] font-semibold tracking-[-0.01em]">{media.name}</p>
-                  <p className="text-[14px] text-muted">{media.tagline}</p>
+          <div className="animate-rise-solid">
+            <div className="hc-shift" data-depth="1.4">
+              <div className="lg animate-float overflow-hidden rounded-[30px] p-3">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-[22px]">
+                  <Image
+                    src={media.image}
+                    alt={media.alt}
+                    fill
+                    preload
+                    sizes="(min-width: 1024px) 480px, 92vw"
+                    className="object-cover"
+                  />
                 </div>
-                <span className="lg-thin inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 text-[13px] font-semibold whitespace-nowrap text-blue-bright">
-                  <span className="size-1.5 rounded-full bg-blue-bright" aria-hidden />
-                  {media.status}
-                </span>
+                <div className="flex items-center justify-between gap-3 px-2 pt-4 pb-1.5">
+                  <div>
+                    <p className="text-[19px] font-semibold tracking-[-0.01em]">{media.name}</p>
+                    <p className="text-[14px] text-muted">{media.tagline}</p>
+                  </div>
+                  <span className="lg-thin inline-flex shrink-0 items-center gap-2 rounded-full px-3 py-1.5 text-[13px] font-semibold whitespace-nowrap text-blue-bright">
+                    <span className="size-1.5 rounded-full bg-blue-bright" aria-hidden />
+                    {media.status}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -113,19 +106,21 @@ export function HeroCards() {
           className="hc relative z-30 lg:absolute lg:bottom-[2%] lg:left-0 lg:w-[42%]"
           data-depth="2"
         >
-          <div className="hc-shift" data-depth="2">
-            <div className="lg animate-float overflow-hidden rounded-[24px] p-2.5 [animation-delay:-2.5s]">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[18px]">
-                <Image
-                  src={tourism.image}
-                  alt={tourism.alt}
-                  fill
-                  sizes="(min-width: 1024px) 240px, 46vw"
-                  className="object-cover"
-                />
+          <div className="animate-rise" style={{ animationDelay: "370ms" }}>
+            <div className="hc-shift" data-depth="2">
+              <div className="lg animate-float overflow-hidden rounded-[24px] p-2.5 [animation-delay:-2.5s]">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[18px]">
+                  <Image
+                    src={tourism.image}
+                    alt={tourism.alt}
+                    fill
+                    sizes="(min-width: 1024px) 240px, 46vw"
+                    className="object-cover"
+                  />
+                </div>
+                <p className="px-1.5 pt-3 text-[15px] font-semibold">{tourism.name}</p>
+                <p className="px-1.5 pb-1 text-[13px] text-muted">Coming soon</p>
               </div>
-              <p className="px-1.5 pt-3 text-[15px] font-semibold">{tourism.name}</p>
-              <p className="px-1.5 pb-1 text-[13px] text-muted">Coming soon</p>
             </div>
           </div>
         </div>
@@ -133,33 +128,37 @@ export function HeroCards() {
           className="hc relative z-10 lg:absolute lg:right-[2%] lg:bottom-0 lg:w-[40%]"
           data-depth="0.8"
         >
-          <div className="hc-shift" data-depth="0.8">
-            <div className="lg animate-float overflow-hidden rounded-[24px] p-2.5 [animation-delay:-4.5s]">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[18px]">
-                <Image
-                  src={trading.image}
-                  alt={trading.alt}
-                  fill
-                  sizes="(min-width: 1024px) 230px, 46vw"
-                  className="object-cover"
-                />
+          <div className="animate-rise" style={{ animationDelay: "490ms" }}>
+            <div className="hc-shift" data-depth="0.8">
+              <div className="lg animate-float overflow-hidden rounded-[24px] p-2.5 [animation-delay:-4.5s]">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[18px]">
+                  <Image
+                    src={trading.image}
+                    alt={trading.alt}
+                    fill
+                    sizes="(min-width: 1024px) 230px, 46vw"
+                    className="object-cover"
+                  />
+                </div>
+                <p className="px-1.5 pt-3 text-[15px] font-semibold">{trading.name}</p>
+                <p className="px-1.5 pb-1 text-[13px] text-muted">Coming soon</p>
               </div>
-              <p className="px-1.5 pt-3 text-[15px] font-semibold">{trading.name}</p>
-              <p className="px-1.5 pb-1 text-[13px] text-muted">Coming soon</p>
             </div>
           </div>
         </div>
 
         {/* Since 2010 badge. */}
         <div className="hc absolute top-0 right-2 z-30 lg:right-[2%]" data-depth="2.4">
-          <div className="hc-shift" data-depth="2.4">
-            <div className="lg animate-float rounded-[18px] px-3.5 py-2.5 text-center [animation-delay:-1.2s] lg:rounded-[22px] lg:px-5 lg:py-4">
-              <p className="text-[10px] font-semibold tracking-[0.08em] text-muted uppercase lg:text-[12px]">
-                Since
-              </p>
-              <p className="text-sheen font-display text-[24px] leading-none font-semibold tracking-[-0.03em] lg:text-[34px]">
-                {brand.since}
-              </p>
+          <div className="animate-rise" style={{ animationDelay: "610ms" }}>
+            <div className="hc-shift" data-depth="2.4">
+              <div className="lg animate-float rounded-[18px] px-3.5 py-2.5 text-center [animation-delay:-1.2s] lg:rounded-[22px] lg:px-5 lg:py-4">
+                <p className="text-[10px] font-semibold tracking-[0.08em] text-muted uppercase lg:text-[12px]">
+                  Since
+                </p>
+                <p className="text-sheen font-display text-[24px] leading-none font-semibold tracking-[-0.03em] lg:text-[34px]">
+                  {brand.since}
+                </p>
+              </div>
             </div>
           </div>
         </div>

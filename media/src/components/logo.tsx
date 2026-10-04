@@ -11,6 +11,8 @@ export function Logo({ className = "h-8 w-auto" }: { className?: string }) {
         alt="Be Positive Group"
         width={1006}
         height={323}
+        // Shown at ~120-150px wide: offer small candidates, not 1080/2048.
+        sizes="160px"
         preload
         className={className}
       />

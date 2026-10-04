@@ -50,7 +50,7 @@ export async function Races() {
                       src={race.thumbnail}
                       alt=""
                       fill
-                      sizes="(min-width: 640px) 560px, 100vw"
+                      sizes="(min-width: 640px) 560px, calc(100vw - 48px)"
                       className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
                     />
                     <span className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
