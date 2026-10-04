@@ -1,5 +1,5 @@
 import mapData from "@/content/map-dots.json";
-import { markets } from "@/content/site";
+import { regions, type Region } from "@/content/site";
 import { SectionHeading } from "@/components/section-heading";
 import { PresenceMap } from "@/components/presence-map";
 
@@ -17,17 +17,17 @@ const dotsPath = (mapData.dots as [number, number][])
   .join("");
 
 const points = Object.fromEntries(
-  markets.map((m) => [m.id, [px(m.coords[0]), py(m.coords[1])] as [number, number]]),
-);
+  regions.map((r) => [r.id, [px(r.coords[0]), py(r.coords[1])] as [number, number]]),
+) as Record<Region["id"], [number, number]>;
 
-export function Presence() {
+export function Companies() {
   return (
-    <section id="presence" className="mx-auto max-w-[1240px] px-5 py-24 sm:py-32">
+    <section id="companies" className="mx-auto max-w-[1240px] px-5 py-24 sm:py-32">
       <SectionHeading
-        label="Our presence"
+        label="Our presence and companies"
         title="Connecting markets."
         accent="Crossing borders."
-        intro="Rooted in Kerala, with an international hub in Doha and a sourcing connection in China."
+        intro="Rooted in Kerala, with an international hub in Doha and a sourcing connection in China. Each market and the companies that serve it."
       />
       <div className="mt-14">
         <PresenceMap dotsPath={dotsPath} width={W} height={H} points={points} />

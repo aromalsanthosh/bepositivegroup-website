@@ -40,11 +40,7 @@ export function SiteFooter() {
         <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 text-[13px] text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Be Positive Group. All rights reserved.</p>
           <p>
-            Made with{" "}
-            <span role="img" aria-label="love">
-              ❤️
-            </span>{" "}
-            by{" "}
+            Designed and developed by{" "}
             <a
               href="https://aromalsanthosh.com"
               target="_blank"

@@ -1,84 +1,81 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, Newspaper } from "@phosphor-icons/react";
-import { news, newsCategories } from "@/content/site";
+import { ArrowUpRight, YoutubeLogo } from "@phosphor-icons/react/ssr";
+import { brand, news } from "@/content/site";
+import { getLatestStream } from "@/lib/youtube";
 import { SectionHeading } from "@/components/section-heading";
+import { StreamPlayer } from "@/components/stream-player";
 import { Reveal } from "@/components/motion/reveal";
 
-type Filter = (typeof newsCategories)[number];
+const fmt = (iso: string) =>
+  new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" });
 
-export function News() {
-  const [filter, setFilter] = useState<Filter>("All");
-  const items = filter === "All" ? news : news.filter((n) => n.category === filter);
+// Latest from the group: the newest BPG Media stream plus three updates.
+export async function News() {
+  const stream = await getLatestStream();
 
   return (
     <section id="news" className="mx-auto max-w-[1240px] px-5 py-24 sm:py-32">
       <SectionHeading
-        title="News"
-        accent="& insights."
-        intro="Updates from across the group, our verticals and the industries we work in."
+        title="Latest from"
+        accent="the group."
+        intro="Updates from across the group, our verticals and the live events we cover."
       />
 
-      {/* Category filter: wrapping pills on phones so every option is visible,
-          one glass capsule from sm up. */}
-      <div className="mt-10">
-        <ul
-          aria-label="Filter news by category"
-          className="flex flex-wrap gap-2 sm:inline-flex sm:flex-nowrap sm:gap-1 sm:rounded-full sm:bg-white/[0.06] sm:p-1.5 sm:shadow-[inset_0_1px_0_rgb(255_255_255/0.18),inset_0_0_0_1px_rgb(255_255_255/0.09)] sm:backdrop-blur-[18px]"
-        >
-          {newsCategories.map((c) => {
-            const on = c === filter;
-            return (
-              <li key={c}>
-                <button
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => setFilter(c)}
-                  className={`h-10 rounded-full px-4 text-[14px] font-semibold whitespace-nowrap transition-colors duration-200 active:translate-y-px ${on ? "bg-white text-bg" : "bg-white/[0.06] text-text/80 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.1)] hover:bg-white/10 hover:text-white sm:bg-transparent sm:shadow-none sm:hover:bg-white/8"}`}
-                >
-                  {c}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <div className="mt-14 grid gap-5 lg:grid-cols-12">
+        <Reveal className="lg:col-span-7">
+          <article className="lg flex h-full flex-col rounded-[30px] p-3">
+            <StreamPlayer stream={stream} />
+            <div className="flex flex-wrap items-end justify-between gap-4 p-4 sm:p-5">
+              <div className="min-w-0">
+                <p className="inline-flex items-center gap-2 text-[14px] font-semibold text-blue-bright">
+                  <YoutubeLogo size={18} weight="fill" aria-hidden />
+                  Latest stream · {fmt(stream.published)}
+                </p>
+                <h3 className="mt-1.5 text-[clamp(1.25rem,2vw,1.6rem)] leading-snug font-semibold tracking-[-0.02em]">{stream.title}</h3>
+              </div>
+              <a
+                href={`${brand.mediaChannel}/streams`}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-glass inline-flex h-11 shrink-0 items-center gap-2 rounded-full px-5 text-[14px] font-semibold active:translate-y-px"
+              >
+                All streams
+                <ArrowUpRight size={16} aria-hidden />
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </article>
+        </Reveal>
 
-      <p aria-live="polite" className="sr-only">
-        {items.length} {items.length === 1 ? "story" : "stories"} in {filter}
-      </p>
-
-      {items.length > 0 ? (
-        <ul className="mt-8 grid gap-5 md:grid-cols-2">
-          {items.map((n, i) => {
+        <ul className="flex flex-col gap-4 lg:col-span-5">
+          {news.map((n, i) => {
             const external = n.href.startsWith("http");
             return (
-              <li key={n.title}>
-                <Reveal delay={i * 0.08} className="h-full">
+              <li key={n.title} className="flex-1">
+                <Reveal delay={0.06 * (i + 1)} className="h-full">
                   <a
                     href={n.href}
                     {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
-                    className="lg group flex h-full flex-col overflow-hidden rounded-[30px] p-3"
+                    className="lg group flex h-full items-center gap-4 rounded-[24px] p-3"
                   >
-                    <div className="relative aspect-[16/9] overflow-hidden rounded-[22px]">
+                    <span className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-[16px] sm:aspect-[4/3] sm:w-36">
                       <Image
                         src={n.image}
                         alt=""
                         fill
-                        sizes="(min-width: 768px) 600px, 100vw"
-                        className="object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+                        sizes="144px"
+                        className="object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
                       />
-                    </div>
-                    <div className="flex flex-1 items-start justify-between gap-4 p-4 sm:p-5">
-                      <div>
-                        <p className="text-[14px] font-semibold text-blue-bright">{n.category}</p>
-                        <h3 className="mt-1.5 text-[21px] leading-snug font-semibold tracking-[-0.015em]">{n.title}</h3>
-                        <p className="mt-2 text-[15px] leading-relaxed text-muted">{n.text}</p>
-                      </div>
-                      <ArrowUpRight size={20} aria-hidden className="mt-1 shrink-0 text-muted transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
-                    </div>
+                    </span>
+                    <span className="min-w-0 flex-1 py-1 pr-1">
+                      <span className="block text-[13px] font-semibold text-blue-bright">
+                        {n.category}
+                        {n.date && <span className="font-medium text-muted"> · {fmt(n.date)}</span>}
+                      </span>
+                      <span className="mt-1 block text-[16px] leading-snug font-semibold tracking-[-0.01em]">{n.title}</span>
+                      <span className="mt-1 line-clamp-2 text-[14px] leading-snug text-muted">{n.text}</span>
+                    </span>
+                    <ArrowUpRight size={18} aria-hidden className="mr-1 shrink-0 self-start text-muted transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
                     {external && <span className="sr-only"> (opens in a new tab)</span>}
                   </a>
                 </Reveal>
@@ -86,22 +83,7 @@ export function News() {
             );
           })}
         </ul>
-      ) : (
-        <div className="lg-thin mt-8 flex flex-col items-start gap-4 rounded-[30px] p-8 sm:flex-row sm:items-center sm:p-10">
-          <span className="lg grid size-14 shrink-0 place-items-center rounded-2xl text-blue-bright">
-            <Newspaper size={26} aria-hidden />
-          </span>
-          <div>
-            <p className="text-[19px] font-semibold tracking-[-0.01em]">No {filter} stories yet.</p>
-            <p className="mt-1 text-[15px] leading-relaxed text-muted">
-              Updates will appear here as they are published.{" "}
-              <button type="button" onClick={() => setFilter("All")} className="font-semibold text-text underline-offset-4 hover:underline">
-                Show all news
-              </button>
-            </p>
-          </div>
-        </div>
-      )}
+      </div>
     </section>
   );
 }

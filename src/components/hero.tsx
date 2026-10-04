@@ -1,7 +1,7 @@
 import { HeroCards } from "@/components/hero-cards";
 import { Pill } from "@/components/pill";
 import { DotField } from "@/components/motion/dot-field";
-import { hero } from "@/content/site";
+import { hero, sites } from "@/content/site";
 
 export function Hero() {
   return (
@@ -34,7 +34,7 @@ export function Hero() {
             <Pill href="#verticals" arrow>
               Explore our group
             </Pill>
-            <Pill href="#media" variant="secondary">
+            <Pill href={sites.media} variant="secondary">
               Explore Media
             </Pill>
           </div>

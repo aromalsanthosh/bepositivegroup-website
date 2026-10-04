@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckCircle, PaperPlaneTilt } from "@phosphor-icons/react";
-import { brand, contact } from "@/content/site";
+import { contact, enquiryRoutes } from "@/content/site";
 
 type Errors = Partial<Record<"name" | "email" | "interest" | "message", string>>;
 
@@ -10,11 +10,20 @@ const field =
   "lg-thin h-12 w-full rounded-[14px] px-4 text-[16px] text-white placeholder:text-muted/80 outline-none transition-shadow focus:shadow-[inset_0_0_0_1.5px_#7aa2ff]";
 
 // Enquiry form. Until a backend is connected it composes the enquiry in the
-// visitor's email app (as the approved prototype did). Labels sit above
-// inputs; errors appear inline and the first invalid field gets focus.
+// visitor's email app, addressed to the company that handles the chosen area
+// (enquiryRoutes). ?enquiry=<id> preselects an area, e.g. from the Tourism and
+// Trading holding pages. Errors appear inline; the first invalid field gets focus.
 export function ContactForm() {
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
+  const [interest, setInterest] = useState("");
+  const route = enquiryRoutes.find((r) => r.id === interest);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("enquiry");
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time read of the URL after hydration
+    if (id && enquiryRoutes.some((r) => r.id === id)) setInterest(id);
+  }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,20 +40,21 @@ export function ContactForm() {
       form.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
       return;
     }
-    const subject = `Enquiry: ${data.interest} from ${data.name}`;
+    const to = enquiryRoutes.find((r) => r.id === data.interest)!;
+    const subject = `Enquiry: ${to.label} from ${data.name}`;
     const body = [
       `Name: ${data.name}`,
       data.company && `Company: ${data.company}`,
       `Email: ${data.email}`,
       data.phone && `Phone: ${data.phone}`,
       data.country && `Country: ${data.country}`,
-      `Interested in: ${data.interest}`,
+      `Interested in: ${to.label}`,
       "",
       data.message,
     ]
       .filter(Boolean)
       .join("\n");
-    window.location.href = `mailto:${brand.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${to.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent(true);
   };
 
@@ -86,13 +96,28 @@ export function ContactForm() {
       </div>
       <div>
         <label htmlFor="interest" className="mb-2 block text-[14px] font-semibold text-silver">I&apos;m interested in *</label>
-        <select id="interest" name="interest" defaultValue="" className={`${field} appearance-none bg-[#0d1322]`} aria-invalid={!!errors.interest} aria-describedby={errors.interest ? "interest-error" : undefined}>
+        <select
+          id="interest"
+          name="interest"
+          value={interest}
+          onChange={(e) => setInterest(e.target.value)}
+          className={`${field} appearance-none bg-[#0d1322]`}
+          aria-invalid={!!errors.interest}
+          aria-describedby={errors.interest ? "interest-error" : route ? "interest-route" : undefined}
+        >
           <option value="">Select an area</option>
-          {contact.interests.map((c) => (
-            <option key={c}>{c}</option>
+          {enquiryRoutes.map((r) => (
+            <option key={r.id} value={r.id}>
+              {r.label}
+            </option>
           ))}
         </select>
-        {err("interest")}
+        {err("interest") ??
+          (route && (
+            <p id="interest-route" className="mt-1.5 text-[13px] text-muted">
+              Goes to <span className="font-semibold text-silver">{route.company}</span>
+            </p>
+          ))}
       </div>
       <div className="sm:col-span-2">
         <label htmlFor="message" className="mb-2 block text-[14px] font-semibold text-silver">Tell us about your requirement *</label>

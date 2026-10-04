@@ -1,24 +1,19 @@
 import { SiteHeader } from "@/components/site-header";
 import { ScrollProgress } from "@/components/motion/scroll-progress";
 import { Hero } from "@/components/hero";
-import { ClientLogos } from "@/components/client-logos";
-import { Intro } from "@/components/intro";
-import { Verticals } from "@/components/verticals";
-import { Presence } from "@/components/presence";
-import { MediaHighlight } from "@/components/media-highlight";
-import { Capabilities } from "@/components/capabilities";
-import { Ecosystem } from "@/components/ecosystem";
-import { Why } from "@/components/why";
 import { About } from "@/components/about";
+import { Verticals } from "@/components/verticals";
+import { Companies } from "@/components/companies";
+import { ClientLogos } from "@/components/client-logos";
 import { Leadership } from "@/components/leadership";
-import { Network } from "@/components/network";
 import { News } from "@/components/news";
-import { AwardsEvents } from "@/components/awards-events";
 import { Contact } from "@/components/contact";
-import { ClosingBanner } from "@/components/closing-banner";
 import { SiteFooter } from "@/components/site-footer";
 import { jsonLd } from "@/lib/seo";
 
+// Section order per "Be Positive Group Website - Changes" (Oct 2026).
+// Awards & Events (components/awards-events.tsx) stays hidden until there are
+// confirmed events or awards to show.
 export default function Home() {
   return (
     <>
@@ -31,21 +26,13 @@ export default function Home() {
       <SiteHeader />
       <main id="main">
         <Hero />
-        <ClientLogos />
-        <Intro />
-        <Verticals />
-        <Presence />
-        <MediaHighlight />
-        <Capabilities />
-        <Ecosystem />
-        <Why />
         <About />
+        <Verticals />
+        <Companies />
+        <ClientLogos />
         <Leadership />
-        <Network />
         <News />
-        <AwardsEvents />
         <Contact />
-        <ClosingBanner />
       </main>
       <SiteFooter />
     </>
