@@ -45,33 +45,53 @@ export function SiteHeader() {
             aria-label={open ? "Close menu" : "Open menu"}
             className="inline-flex size-11 items-center justify-center rounded-full text-text transition-colors hover:bg-white/10 lg:hidden"
           >
-            {open ? <X size={22} aria-hidden /> : <List size={22} aria-hidden />}
+            {/* Icons cross-fade and rotate into each other. */}
+            <span className="relative size-[22px]" aria-hidden>
+              <List
+                size={22}
+                className={`absolute inset-0 transition duration-300 ease-out motion-reduce:transition-none ${open ? "scale-50 rotate-90 opacity-0" : "opacity-100"}`}
+              />
+              <X
+                size={22}
+                className={`absolute inset-0 transition duration-300 ease-out motion-reduce:transition-none ${open ? "opacity-100" : "scale-50 -rotate-90 opacity-0"}`}
+              />
+            </span>
           </button>
         </div>
       </div>
 
-      {open && (
-        <nav
-          id="mobile-nav"
-          aria-label="Mobile"
-          onKeyDown={(e) => e.key === "Escape" && setOpen(false)}
-          className="lg mx-auto mt-2 max-w-[1180px] rounded-[28px] p-3 lg:hidden"
-        >
-          <ul className="flex flex-col">
-            {[...nav, cta].map((item) => (
-              <li key={item.label}>
-                <a
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="block rounded-2xl px-4 py-3.5 text-[22px] font-semibold tracking-[-0.02em] transition-colors hover:bg-white/8"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+      {/* Always mounted so it can animate out; inert while closed keeps it out
+          of the tab order and away from screen readers. */}
+      <nav
+        id="mobile-nav"
+        aria-label="Mobile"
+        inert={!open}
+        onKeyDown={(e) => e.key === "Escape" && setOpen(false)}
+        className={`lg mx-auto mt-2 max-w-[1180px] origin-top rounded-[28px] p-3 transition-[opacity,translate,scale,visibility] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none lg:hidden ${
+          open ? "visible translate-y-0 scale-100 opacity-100" : "invisible -translate-y-3 scale-[0.97] opacity-0"
+        }`}
+      >
+        <ul className="flex flex-col">
+          {[...nav, cta].map((item, i) => (
+            <li
+              key={item.label}
+              className={`transition duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                open ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+              }`}
+              // Stagger in on open; leave together on close.
+              style={{ transitionDelay: open ? `${60 + i * 35}ms` : "0ms" }}
+            >
+              <a
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="block rounded-2xl px-4 py-3.5 text-[22px] font-semibold tracking-[-0.02em] transition-colors hover:bg-white/8"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </header>
   );
 }
