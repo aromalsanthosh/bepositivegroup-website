@@ -81,8 +81,11 @@ export function HeroCards() {
                     src={media.image}
                     alt={media.alt}
                     fill
+                    // LCP image: preload link + high priority + never lazy.
                     preload
-                    sizes="(min-width: 1024px) 480px, 92vw"
+                    fetchPriority="high"
+                    loading="eager"
+                    sizes="(min-width: 1024px) 480px, (min-width: 640px) 560px, calc(100vw - 64px)"
                     className="object-cover"
                   />
                 </div>

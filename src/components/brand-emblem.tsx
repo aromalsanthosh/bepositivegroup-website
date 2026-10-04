@@ -26,14 +26,28 @@ export function BrandEmblem({ className = "" }: { className?: string }) {
     () => false,
   );
 
-  // Only decode while the crest is on screen.
+  // Nothing downloads until the crest is about to scroll into view; then ONE
+  // file is chosen for this device (size by viewport, WebM where supported)
+  // rather than <source media> lists, which some browsers fetch more than
+  // once. After that, play only while on screen.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    const io = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) video.play().catch(() => {});
-      else video.pause();
-    });
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          video.pause();
+          return;
+        }
+        if (!video.src) {
+          const size = matchMedia("(max-width: 767px)").matches ? 720 : 1080;
+          const webm = video.canPlayType('video/webm; codecs="vp9"') !== "";
+          video.src = `${SRC}-${size}.${webm ? "webm" : "mp4"}`;
+        }
+        video.play().catch(() => {});
+      },
+      { rootMargin: "300px 0px" },
+    );
     io.observe(video);
     return () => io.disconnect();
   }, [animate]);
@@ -49,26 +63,20 @@ export function BrandEmblem({ className = "" }: { className?: string }) {
           ref={videoRef}
           className="absolute inset-0 size-full mix-blend-screen"
           poster={POSTER}
-          autoPlay
           muted
           loop
           playsInline
-          preload="auto"
+          preload="none"
           disablePictureInPicture
           aria-hidden
-        >
-          <source media="(max-width: 767px)" src={`${SRC}-720.webm`} type='video/webm; codecs="vp9"' />
-          <source media="(max-width: 767px)" src={`${SRC}-720.mp4`} type="video/mp4" />
-          <source src={`${SRC}-1080.webm`} type='video/webm; codecs="vp9"' />
-          <source src={`${SRC}-1080.mp4`} type="video/mp4" />
-        </video>
+        />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element -- poster must match the video frame exactly
         <img
           src={POSTER}
           alt=""
-          width={880}
-          height={880}
+          width={640}
+          height={640}
           className="absolute inset-0 size-full mix-blend-screen"
         />
       )}

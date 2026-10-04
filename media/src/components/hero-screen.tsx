@@ -41,7 +41,10 @@ export function HeroScreen({ src, alt }: { src: string; alt: string }) {
             src={src}
             alt={alt}
             fill
+            // LCP image: preload link + high priority + never lazy.
             preload
+            fetchPriority="high"
+            loading="eager"
             sizes="(min-width: 660px) 600px, 94vw"
             className="object-cover"
           />
