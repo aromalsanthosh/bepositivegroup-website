@@ -15,20 +15,29 @@ type Props = {
 
 const domain = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 
+// Long subdomains may wrap on small phones: allow breaks only after a dot.
+const breakable = (host: string) =>
+  host.split(".").map((part, i, all) => (
+    <span key={i}>
+      {part}
+      {i < all.length - 1 && <>.<wbr /></>}
+    </span>
+  ));
+
 function CompanyRow({ c }: { c: Company }) {
   const linked = c.url && c.status !== "Website coming soon";
   const external = linked && !c.url!.includes("bepositivegroup.com");
   const body = (
     <>
       {/* Logos are JPGs on white: shown on a white tile, like an app icon. */}
-      <span className="flex h-14 w-[72px] shrink-0 items-center justify-center rounded-[14px] bg-white p-1.5 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)]">
+      <span className="flex h-11 w-14 shrink-0 items-center justify-center rounded-[12px] bg-white p-1 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] sm:h-14 sm:w-[72px] sm:rounded-[14px] sm:p-1.5">
         <Image src={c.logo} alt="" width={560} height={300} className="h-full w-auto object-contain" />
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-[16px] leading-snug font-semibold tracking-[-0.01em]">{c.name}</span>
         <span className="mt-0.5 block text-[13px] leading-snug text-muted">{c.focus}</span>
         <span className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px]">
-          {linked && <span className="font-semibold text-blue-bright">{domain(c.url!)}</span>}
+          {linked && <span className="text-[12px] font-semibold text-blue-bright sm:text-[13px]">{breakable(domain(c.url!))}</span>}
           {c.status && (
             <span className="lg-thin rounded-full px-2 py-0.5 text-[12px] font-semibold text-muted">{c.status}</span>
           )}
@@ -40,7 +49,7 @@ function CompanyRow({ c }: { c: Company }) {
       )}
     </>
   );
-  const row = "flex items-start gap-4 rounded-[18px] p-3";
+  const row = "flex items-start gap-3 rounded-[18px] p-2.5 sm:gap-4 sm:p-3";
   return linked ? (
     <a href={c.url} {...(external ? { target: "_blank", rel: "noreferrer" } : {})} className={`group ${row} transition-colors hover:bg-white/6`}>
       {body}
@@ -154,11 +163,11 @@ export function PresenceMap({ dotsPath, width, height, points }: Props) {
         </div>
       </div>
 
-      <ul className="mt-5 grid items-start gap-4 lg:grid-cols-3">
+      <ul className="mt-5 grid grid-cols-1 items-start gap-4 lg:grid-cols-3">
         {regions.map((r) => (
           <li
             key={r.id}
-            className="region-card lg rounded-[28px] p-3 sm:p-4"
+            className="region-card lg rounded-[28px] p-2.5 sm:p-4"
             data-active={active === r.id}
             onPointerEnter={() => setActive(r.id)}
             onPointerLeave={() => setActive(null)}
