@@ -1,4 +1,4 @@
-import { brand, leadership, sites } from "@/content/site";
+import { brand, leadership, sites, social } from "@/content/site";
 
 // Canonical origin. Set NEXT_PUBLIC_SITE_URL once the custom domain is live;
 // until then Vercel's production URL keeps share previews working.
@@ -75,7 +75,7 @@ export const jsonLd = {
       areaServed: ["India", "Qatar", "China"].map((name) => ({ "@type": "Country", name })),
       knowsAbout: ["Advertising", "Branding", "Digital marketing", "Content production", "Live broadcasting", "Events", "Printing and signage", "Tourism", "International trading"],
       contactPoint: { "@type": "ContactPoint", contactType: "customer service", email: brand.email },
-      sameAs: [brand.mediaChannel],
+      sameAs: social.map((s) => s.href),
     },
     {
       "@type": "WebSite",

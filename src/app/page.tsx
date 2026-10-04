@@ -9,6 +9,7 @@ import { Leadership } from "@/components/leadership";
 import { News } from "@/components/news";
 import { Contact } from "@/components/contact";
 import { SiteFooter } from "@/components/site-footer";
+import { SideRails } from "@/components/side-rails";
 import { jsonLd } from "@/lib/seo";
 
 // Section order per "Be Positive Group Website - Changes" (Oct 2026).
@@ -24,6 +25,7 @@ export default function Home() {
       />
       <ScrollProgress />
       <SiteHeader />
+      <SideRails />
       <main id="main">
         <Hero />
         <About />

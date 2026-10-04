@@ -1,5 +1,8 @@
 import { Logo } from "@/components/logo";
-import { brand, footer, regions } from "@/content/site";
+import { FacebookLogo, InstagramLogo, LinkedinLogo, YoutubeLogo } from "@phosphor-icons/react/ssr";
+import { brand, footer, regions, social } from "@/content/site";
+
+const socialIcons = { YouTube: YoutubeLogo, Instagram: InstagramLogo, LinkedIn: LinkedinLogo, Facebook: FacebookLogo };
 
 const link = "text-text/70 transition-colors hover:text-white";
 const isExternal = (href: string) => href.startsWith("http") && !href.includes("bepositivegroup.com");
@@ -48,6 +51,27 @@ export function SiteFooter() {
                     Send an enquiry
                   </a>
                 </li>
+              </ul>
+              <ul aria-label="Social media" className="mt-6 flex gap-2.5">
+                {social.map(({ name, href }) => {
+                  const Icon = socialIcons[name];
+                  return (
+                    <li key={name} className="group/tip relative">
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${brand.name} on ${name} (opens in a new tab)`}
+                        className="lg-thin grid size-11 place-items-center rounded-full text-text/80 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
+                      >
+                        <Icon size={20} weight="fill" aria-hidden />
+                      </a>
+                      <span aria-hidden className="pointer-events-none absolute z-10 rounded-full bg-[#0d1530] px-3 py-1.5 text-[13px] whitespace-nowrap text-text opacity-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.18),inset_0_0_0_1px_rgba(255,255,255,0.12),0_10px_30px_-10px_rgba(0,0,0,0.7)] backdrop-blur-xl transition duration-200 bottom-full left-1/2 mb-2.5 -translate-x-1/2 translate-y-1 group-focus-within/tip:translate-y-0 group-focus-within/tip:opacity-100 group-hover/tip:translate-y-0 group-hover/tip:opacity-100">
+                        {name}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

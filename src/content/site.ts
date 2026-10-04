@@ -23,6 +23,15 @@ export const brand = {
   youtubeChannelId: "UCc8u0odNIZPyuaTJslrfACA",
 };
 
+// Official accounts, verified Oct 2026 (the old site's "bepositivegroupqa"
+// handles are no longer the active ones).
+export const social = [
+  { name: "YouTube", href: "https://www.youtube.com/@bepositivegroupmedia" },
+  { name: "Instagram", href: "https://www.instagram.com/bepositivegroup.qatar/" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/company/bepositivegroup" },
+  { name: "Facebook", href: "https://www.facebook.com/bepositivegroup.qatar/" },
+] as const;
+
 export const nav = [
   { label: "About", href: "#about" },
   { label: "Verticals", href: "#verticals" },
