@@ -4,23 +4,27 @@
 @source not "../../media";
 
 /*
-  Be Positive Group design tokens. Dark only, sharing the BPG Media palette:
-  blues from the logo navy #07296C, silver from the crest.
-  One accent (signal blue) for actions and highlights.
-  Shapes: pills for interactive elements, 28px for glass panels, 20px for
+  Be Positive Group design tokens (light redesign).
+  Paper background with white cards; brand navy #07296C from the logo for
+  dark surfaces and primary actions; signal blue for links and highlights;
+  the logo's red only for small "live / active" signals.
+  Shapes: pills for interactive elements, 28px for large panels, 20px for
   cards, 14px for tiles and inputs.
 */
 :root {
-  color-scheme: dark;
-  --bg: #02040a;
-  --surface: #070b16;
-  --line: rgb(255 255 255 / 0.09);
-  --text: #f5f7fb;
-  --muted: #9aa3b5;
+  color-scheme: light;
+  --bg: #f6f7fa;
+  --surface: #ffffff;
+  --line: #e3e7ef;
+  --text: #0a1430;
+  --muted: #5b6478;
   --silver: #c9ced8;
   --navy: #07296c;
+  --navy-deep: #04173f;
   --blue: #1d5bf0;
   --blue-bright: #7aa2ff;
+  --sky: #eaf0ff;
+  --red: #e2332b;
 }
 
 @theme inline {
@@ -31,18 +35,22 @@
   --color-muted: var(--muted);
   --color-silver: var(--silver);
   --color-navy: var(--navy);
+  --color-navy-deep: var(--navy-deep);
   --color-blue: var(--blue);
   --color-blue-bright: var(--blue-bright);
+  --color-sky: var(--sky);
+  --color-red: var(--red);
 
-  /* Apple system fonts: SF Pro on Apple devices, platform UI fonts elsewhere. */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue",
-    sans-serif;
-  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto,
-    "Helvetica Neue", sans-serif;
+  --font-sans: var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-outfit), var(--font-dm-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --shadow-card: 0 1px 2px rgb(10 20 48 / 0.04), 0 18px 40px -24px rgb(10 20 48 / 0.22);
+  --shadow-lift: 0 2px 4px rgb(10 20 48 / 0.05), 0 28px 60px -28px rgb(10 20 48 / 0.35);
 }
 
 html {
-  font-size: 106.25%; /* 17px base, Apple's body size */
+  font-size: 106.25%; /* 17px base */
+  scroll-behavior: smooth;
   scroll-padding-top: 6rem;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -66,139 +74,115 @@ h3 {
 }
 
 :focus-visible {
-  outline: 2px solid var(--blue-bright);
+  outline: 2px solid var(--blue);
   outline-offset: 3px;
   border-radius: 8px;
 }
 
 /* ---------------------------------------------------------------------------
-   Liquid glass (web approximation of Apple's Liquid Glass material; there is
-   no official CSS for it). Layers: frosted fill + saturation, a hairline rim,
-   a top specular edge, a soft drop shadow, and a highlight + rim light that
-   follow the pointer via --mx / --my (set by <GlassSpotlight />).
+   Surfaces
 --------------------------------------------------------------------------- */
-.lg {
-  position: relative;
-  isolation: isolate;
-  background: linear-gradient(145deg, rgb(255 255 255 / 0.11), rgb(255 255 255 / 0.03) 55%, rgb(255 255 255 / 0.06));
-  backdrop-filter: blur(26px) saturate(185%);
+.card {
+  background: var(--surface);
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.26),
-    inset 0 -1px 0 rgb(255 255 255 / 0.05),
-    inset 0 0 0 1px rgb(255 255 255 / 0.1),
-    0 30px 80px -30px rgb(0 0 0 / 0.75);
+    inset 0 0 0 1px var(--line),
+    var(--shadow-card);
 }
 
-.lg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  pointer-events: none;
-  background: radial-gradient(520px circle at var(--mx, 30%) var(--my, -10%), rgb(255 255 255 / 0.13), transparent 45%);
-  transition: opacity 0.4s;
-}
-
-.lg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  pointer-events: none;
-  background: radial-gradient(340px circle at var(--mx, 30%) var(--my, 0%), rgb(170 196 255 / 0.7), transparent 60%);
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: var(--rim, 0.35);
-  transition: opacity 0.4s;
-}
-
-.lg[data-active="true"] {
-  --rim: 0.9;
-}
-
-/* Thinner glass for small controls (chips, inputs, nav capsule). */
-.lg-thin {
-  background: linear-gradient(145deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0.03));
-  backdrop-filter: blur(18px) saturate(170%);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.18),
-    inset 0 0 0 1px rgb(255 255 255 / 0.09);
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  .lg,
-  .lg-thin {
-    background: #0e1424;
-    backdrop-filter: none;
-  }
-}
-
-/* Glass buttons, same as BPG Media. */
-.btn-glass,
-.btn-glass-blue {
-  color: #fff;
-  backdrop-filter: saturate(1.6) blur(14px);
+a.card,
+.card-hover {
   transition:
-    background 0.25s,
+    box-shadow 0.35s,
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+a.card:hover,
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 0 0 1px #d5dbe7,
+    var(--shadow-lift);
+}
+
+/* Dark brand panel (leadership, footer, crest). */
+.panel-navy {
+  background:
+    radial-gradient(70% 90% at 100% 0%, rgb(29 91 240 / 0.35), transparent 60%),
+    linear-gradient(160deg, #0a3384, var(--navy) 45%, var(--navy-deep));
+  color: #fff;
+}
+
+/* Subtle dotted texture for quiet backgrounds. */
+.bg-dots {
+  background-image: radial-gradient(rgb(10 20 48 / 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Small rounded chip with a status dot. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  padding: 0.4rem 0.9rem;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ---------------------------------------------------------------------------
+   Buttons
+--------------------------------------------------------------------------- */
+.btn-primary,
+.btn-secondary,
+.btn-light {
+  transition:
+    background-color 0.25s,
+    color 0.25s,
     box-shadow 0.25s,
     transform 0.2s;
 }
 
-.btn-glass {
-  background: linear-gradient(180deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.05));
-  box-shadow:
-    inset 0 0 0 1px rgb(255 255 255 / 0.18),
-    inset 0 1px 0 rgb(255 255 255 / 0.38),
-    0 10px 28px -12px rgb(0 0 0 / 0.6);
+.btn-primary {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: 0 10px 24px -12px rgb(7 41 108 / 0.7);
 }
 
-.btn-glass:hover {
-  background: linear-gradient(180deg, rgb(255 255 255 / 0.24), rgb(255 255 255 / 0.09));
+.btn-primary:hover {
+  background: var(--blue);
+  box-shadow: 0 14px 30px -12px rgb(29 91 240 / 0.7);
 }
 
-.btn-glass-blue {
-  background: linear-gradient(180deg, rgb(122 162 255 / 0.6), rgb(29 91 240 / 0.48));
-  box-shadow:
-    inset 0 0 0 1px rgb(170 196 255 / 0.45),
-    inset 0 1px 0 rgb(255 255 255 / 0.5),
-    0 12px 32px -12px rgb(29 91 240 / 0.8);
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px #d5dbe7;
 }
 
-.btn-glass-blue:hover {
-  background: linear-gradient(180deg, rgb(140 176 255 / 0.7), rgb(29 91 240 / 0.6));
-  box-shadow:
-    inset 0 0 0 1px rgb(190 210 255 / 0.55),
-    inset 0 1px 0 rgb(255 255 255 / 0.6),
-    0 14px 40px -12px rgb(29 91 240 / 0.95);
+.btn-secondary:hover {
+  box-shadow: inset 0 0 0 1px var(--text);
 }
 
-@media (prefers-reduced-transparency: reduce) {
-  .btn-glass {
-    background: #262c3a;
-    backdrop-filter: none;
-  }
-  .btn-glass-blue {
-    background: var(--blue);
-    backdrop-filter: none;
-  }
+.btn-light {
+  background: #fff;
+  color: var(--navy);
 }
 
-/* Gradient display text (silver to brand blue). */
-.text-sheen {
-  background: linear-gradient(100deg, #ffffff 0%, #c9d6ff 40%, #7aa2ff 75%, #c9ced8 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.btn-light:hover {
+  background: var(--sky);
+}
+
+/* Highlighted words in headings. */
+.text-accent {
+  color: var(--blue);
 }
 
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 1.5px rgb(255 255 255 / 0.55);
+  -webkit-text-stroke: 1.5px rgb(10 20 48 / 0.35);
 }
 
 /* Client logo marquee: two identical halves, so -50% loops seamlessly. */
@@ -236,14 +220,14 @@ h3 {
   animation: rise-solid 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Slow idle float for the hero's glass cards. */
+/* Slow idle float for small hero badges. */
 @keyframes float {
   0%,
   100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
 }
 
@@ -251,29 +235,42 @@ h3 {
   animation: float 7s ease-in-out infinite;
 }
 
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.6);
-    opacity: 0.9;
-  }
+/* Live / active indicator: a dot with a soft expanding halo. */
+@keyframes ping {
+  75%,
   100% {
-    transform: scale(2.6);
+    transform: scale(2.2);
     opacity: 0;
   }
 }
 
-.pulse-ring {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: pulse-ring 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+.dot-live {
+  position: relative;
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: var(--red);
+}
+
+.dot-live::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   .animate-marquee,
   .animate-rise,
   .animate-rise-solid,
   .animate-float,
-  .pulse-ring {
+  .dot-live::after {
     animation: none;
   }
 }

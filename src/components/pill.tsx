@@ -3,16 +3,17 @@ import { ArrowRight } from "@phosphor-icons/react/ssr";
 type Props = {
   href: string;
   children: React.ReactNode;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "light";
   arrow?: boolean;
   external?: boolean;
   className?: string;
 };
 
-// Glass pill buttons (.btn-glass / .btn-glass-blue in globals.css).
+// Pill buttons (.btn-primary / .btn-secondary / .btn-light in globals.css).
 const variants = {
-  primary: "btn-glass-blue",
-  secondary: "btn-glass",
+  primary: "btn-primary",
+  secondary: "btn-secondary",
+  light: "btn-light",
 };
 
 export function Pill({ href, children, variant = "primary", arrow, external, className = "" }: Props) {

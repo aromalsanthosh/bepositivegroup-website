@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { DM_Sans, Outfit } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import { SmoothScroll } from "@/components/motion/smooth-scroll";
-import { GlassSpotlight } from "@/components/glass-spotlight";
-import { Aurora } from "@/components/aurora";
 import { brand } from "@/content/site";
 import { seo, siteUrl } from "@/lib/seo";
 import "./globals.css";
+
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", weight: ["400", "500", "600", "700"] });
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -44,22 +45,20 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#02040a",
+  themeColor: "#f6f7fa",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth" className={`${outfit.variable} ${dmSans.variable}`}>
       <body className="min-h-dvh font-sans">
         <a
           href="#main"
-          className="sr-only z-50 rounded-full bg-white px-4 py-2 text-black focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+          className="sr-only z-50 rounded-full bg-navy px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
         >
           Skip to content
         </a>
-        <Aurora />
-        <GlassSpotlight />
-        <SmoothScroll>{children}</SmoothScroll>
+        {children}
         <Analytics />
       </body>
     </html>

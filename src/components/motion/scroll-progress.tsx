@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 
-// Page progress indicator along the bottom edge of the sticky header.
+// Page progress indicator along the top edge of the viewport.
 export function ScrollProgress() {
   const bar = useRef<HTMLDivElement>(null);
 
@@ -26,7 +26,7 @@ export function ScrollProgress() {
       // Initial scale inline: Tailwind's scale-x-* uses the `scale` property,
       // which would compound with GSAP's transform.
       style={{ transform: "scaleX(0)" }}
-      className="pointer-events-none fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-gradient-to-r from-blue to-blue-bright will-change-transform"
+      className="pointer-events-none fixed inset-x-0 top-0 z-50 h-[3px] origin-left bg-gradient-to-r from-navy via-blue to-blue-bright will-change-transform"
     />
   );
 }
