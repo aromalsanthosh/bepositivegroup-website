@@ -72,7 +72,7 @@ export function AwardsEvents() {
             href={featured.href}
             target="_blank"
             rel="noreferrer"
-            className="lg group flex h-full flex-col overflow-hidden rounded-[30px] p-3"
+            className="card group flex h-full flex-col overflow-hidden rounded-[30px] p-3"
           >
             <div className="relative aspect-[16/10] overflow-hidden rounded-[22px]">
               <Image
@@ -82,28 +82,28 @@ export function AwardsEvents() {
                 sizes="(min-width: 1024px) 600px, 100vw"
                 className="object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
               />
-              <span className="lg-thin absolute top-4 left-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[13px] font-semibold">
+              <span className="bg-bg shadow-[inset_0_0_0_1px_var(--line)] absolute top-4 left-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[13px] font-semibold">
                 <span className="size-1.5 rounded-full bg-blue-bright" aria-hidden />
                 Featured
               </span>
             </div>
             <div className="flex flex-1 items-start justify-between gap-4 p-4 sm:p-6">
               <div>
-                <p className="text-[14px] font-semibold text-blue-bright">{featured.label}</p>
+                <p className="text-[14px] font-semibold text-blue">{featured.label}</p>
                 <h3 className="mt-1.5 text-[clamp(1.35rem,2.2vw,1.75rem)] leading-snug font-semibold tracking-[-0.02em]">
                   {featured.title}
                 </h3>
                 <p className="mt-2 max-w-[48ch] text-[15px] leading-relaxed text-muted">{featured.text}</p>
               </div>
-              <ArrowUpRight size={20} aria-hidden className="mt-1 shrink-0 text-muted transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
+              <ArrowUpRight size={20} aria-hidden className="mt-1 shrink-0 text-muted transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-text" />
             </div>
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </Reveal>
 
         <Reveal delay={0.08} className="lg:col-span-6">
-          <div className="lg flex h-full flex-col rounded-[30px] p-4 sm:p-6">
-            <div role="tablist" aria-label="Awards and events" className="lg-thin inline-flex self-start rounded-full p-1.5">
+          <div className="card flex h-full flex-col rounded-[30px] p-4 sm:p-6">
+            <div role="tablist" aria-label="Awards and events" className="bg-bg shadow-[inset_0_0_0_1px_var(--line)] inline-flex self-start rounded-full p-1.5">
               {tabNames.map((name, i) => {
                 const on = name === tab;
                 return (
@@ -120,7 +120,7 @@ export function AwardsEvents() {
                     tabIndex={on ? 0 : -1}
                     onClick={() => setTab(name)}
                     onKeyDown={(e) => onKey(e, i)}
-                    className={`h-10 rounded-full px-5 text-[14px] font-semibold transition-colors duration-200 active:translate-y-px ${on ? "bg-white text-bg" : "text-text/75 hover:bg-white/8 hover:text-white"}`}
+                    className={`h-10 rounded-full px-5 text-[14px] font-semibold transition-colors duration-200 active:translate-y-px ${on ? "bg-navy text-white" : "text-text/75 hover:bg-white hover:text-text"}`}
                   >
                     {name}
                   </button>
@@ -138,8 +138,8 @@ export function AwardsEvents() {
               {awardsEvents.tabs[tab].map((group) => {
                 const Glyph = icons[group];
                 return (
-                  <div key={group} className="ae-card lg-thin flex flex-col rounded-[22px] p-4 sm:p-5">
-                    <Glyph size={26} className="text-blue-bright" aria-hidden />
+                  <div key={group} className="ae-card bg-bg shadow-[inset_0_0_0_1px_var(--line)] flex flex-col rounded-[22px] p-4 sm:p-5">
+                    <Glyph size={26} className="text-blue" aria-hidden />
                     <p className="mt-4 text-[15px] leading-snug font-semibold tracking-[-0.01em] sm:mt-5 sm:text-[17px]">{group}</p>
                     <p className="mt-auto pt-3 text-[13px] font-medium text-muted">Being added</p>
                   </div>

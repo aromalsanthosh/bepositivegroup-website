@@ -11,7 +11,7 @@ function LogoSet({ hidden = false }: { hidden?: boolean }) {
   return (
     <ul
       aria-hidden={hidden || undefined}
-      className={`flex shrink-0 items-center gap-5 py-3 pr-5 motion-reduce:flex-wrap motion-reduce:justify-center ${hidden ? "motion-reduce:hidden" : ""}`}
+      className={`flex shrink-0 items-center gap-5 py-4 pr-5 motion-reduce:flex-wrap motion-reduce:justify-center ${hidden ? "motion-reduce:hidden" : ""}`}
     >
       {items.map((client, i) => {
         const copy = hidden || i >= clients.length;
@@ -28,7 +28,7 @@ function LogoSet({ hidden = false }: { hidden?: boolean }) {
               rel="noreferrer"
               tabIndex={copy ? -1 : undefined}
               aria-label={`${client.name} (opens in a new tab)`}
-              className="flex h-[70px] w-[152px] items-center justify-center rounded-[20px] bg-gradient-to-b from-white/[0.92] to-white/[0.78] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),inset_0_0_0_1px_rgba(255,255,255,0.35),0_14px_34px_-16px_rgba(0,0,0,0.7)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:from-white hover:to-white/95 sm:h-[84px] sm:w-[184px]"
+              className="card flex h-[70px] w-[152px] items-center justify-center rounded-[20px] transition duration-300 hover:-translate-y-1 hover:shadow-[inset_0_0_0_1px_#d5dbe7,var(--shadow-lift)] sm:h-[84px] sm:w-[184px]"
             >
               <Image
                 src={`${DIR}/${client.src}.webp`}
@@ -53,9 +53,11 @@ function LogoSet({ hidden = false }: { hidden?: boolean }) {
 
 export function ClientLogos() {
   return (
-    <section aria-labelledby="clients-heading" className="py-14">
-      <h2 id="clients-heading" className="text-center text-[14px] font-semibold text-muted">
+    <section aria-labelledby="clients-heading" className="py-16">
+      <h2 id="clients-heading" className="flex items-center justify-center gap-3 text-center text-[14px] font-semibold text-muted">
+        <span aria-hidden className="h-px w-10 bg-line" />
         Trusted by leading brands in Qatar
+        <span aria-hidden className="h-px w-10 bg-line" />
       </h2>
       <div className="group mt-6 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
         <div className="animate-marquee flex w-max group-hover:[animation-play-state:paused] motion-reduce:w-full motion-reduce:animate-none motion-reduce:justify-center">
